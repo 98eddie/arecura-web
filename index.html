@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ARECURA — 내 몸을 읽어주는 AI 코치</title>
+<meta name="description" content="사진 한 장으로 식단 분석, Apple Health 러닝 자동 연동, 14일 AI 리포트. 기록이 쌓이면 몸은 답을 보여줍니다. ARECURA." />
+<meta property="og:title" content="ARECURA — 내 몸을 읽어주는 AI 코치" />
+<meta property="og:description" content="러닝·식단·체중·웨이트를 연결해 내 몸의 패턴을 읽고, 다음 행동을 정리해주는 AI 코치. iOS 출시 준비 중." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Nanum+Pen+Script&display=swap" />
+<style>
+  :root{
+    --bg:#F5F2EB; --paper:#FFFFFF; --ink:#1B1813; --ink-soft:#6E6A5F;
+    --hairline:#DAD4C6;
+    /* 포인트 컬러 — 앱에서 반복되는 그 파란색 (appPrimary) */
+    --accent:#4F7BD9; --accent-ink:#3760C4; --stamp:#3760C4; --film:#2A2620;
+    --serif:"Noto Serif KR",serif;
+    --sans:"Pretendard Variable",Pretendard,-apple-system,sans-serif;
+    --pen:"Nanum Pen Script",cursive;
+    --pad:clamp(24px,6vw,72px);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);color:var(--ink);background:var(--bg);
+    line-height:1.85;font-size:17px;word-break:keep-all;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  /* 종이 그레인 — 페이지 전체 */
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opacity:.035;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  .page{max-width:1160px;margin:0 auto;padding-inline:var(--pad)}
+
+  /* ============ 활자 ============ */
+  .serif{font-family:var(--serif)}
+  .kicker{font-size:12.5px;letter-spacing:.18em;color:var(--ink-soft);text-transform:uppercase;font-weight:600}
+  .display{
+    font-family:var(--serif);font-weight:700;letter-spacing:-.015em;
+    font-size:clamp(38px,6.5vw,72px);line-height:1.28;max-inline-size:15ch;
+  }
+  h2.sec-title{
+    font-family:var(--serif);font-weight:700;letter-spacing:-.01em;
+    font-size:clamp(25px,3.5vw,40px);line-height:1.4;max-inline-size:16ch;
+  }
+  .lead{color:var(--ink-soft);max-width:26em}
+  .body-col{max-width:23em}
+  .num{
+    font-family:var(--serif);font-weight:600;font-size:clamp(56px,7vw,96px);
+    line-height:1;color:transparent;-webkit-text-stroke:1.2px var(--accent);
+  }
+  ::selection{background:var(--accent);color:var(--paper)}
+  .pen{font-family:var(--pen);font-size:24px;line-height:1.3;color:var(--ink);transform:rotate(-2deg)}
+  .accentnum{color:var(--accent);font-weight:700}
+
+  /* ============ 매스트헤드 ============ */
+  .masthead{border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);margin-top:18px}
+  .masthead-in{display:flex;justify-content:space-between;align-items:center;padding:13px 0;gap:10px}
+  .wordmark{font-family:var(--serif);font-weight:700;letter-spacing:.32em;font-size:16px}
+  .issue{font-size:12px;letter-spacing:.1em;color:var(--ink-soft)}
+
+  /* ============ 인화지 마운트 ============ */
+  .print{
+    background:var(--paper);padding:12px 12px 0;border:1px solid var(--hairline);
+    box-shadow:0 1px 2px rgba(25,20,10,.07),0 14px 34px -14px rgba(25,20,10,.2);
+    transition:transform .25s ease,box-shadow .25s ease;
+    position:relative;
+  }
+  .print:hover{transform:translateY(-4px);box-shadow:0 2px 3px rgba(25,20,10,.07),0 20px 42px -16px rgba(25,20,10,.24)}
+  .print img{filter:sepia(.05) saturate(.95) contrast(.97);width:100%}
+  .print::after{ /* 인화지 그레인 */
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.045;mix-blend-mode:multiply;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .print .ph{overflow:hidden;background:#fff}
+  .print .crop-45 .ph{aspect-ratio:4/5}
+  .print .crop-11 .ph{aspect-ratio:1/1}
+  .print .ph img{height:100%;width:100%;object-fit:cover}
+  figcaption{
+    font-size:12.5px;letter-spacing:.08em;color:var(--ink-soft);
+    border-top:1px solid var(--hairline);margin-top:12px;padding:9px 2px 11px;
+  }
+  figcaption b{color:var(--ink);font-weight:600;letter-spacing:.06em}
+  /* 재단선 — 대표 컷 */
+  .cropmarks{position:relative;padding:16px}
+  .cropmarks::before,.cropmarks::after{content:"";position:absolute;width:13px;height:13px}
+  .cropmarks::before{top:0;left:0;border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
+  .cropmarks::after{bottom:0;right:0;border-bottom:1px solid var(--ink);border-right:1px solid var(--ink)}
+
+  /* ============ 히어로 ============ */
+  .hero{padding-top:clamp(48px,11vh,110px);padding-bottom:clamp(70px,11vh,120px);position:relative}
+  .hero-grid{display:grid;grid-template-columns:5fr 1fr 6fr;align-items:center}
+  .hero .stamp-line{display:inline-flex;align-items:center;gap:10px;margin-bottom:30px}
+  .stamp{
+    display:inline-block;font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--stamp);
+    border:1.5px solid var(--stamp);padding:5px 12px;transform:rotate(-1.6deg);opacity:.92;
+  }
+  .hero .lead{margin-top:30px}
+  .cta-line{margin-top:38px;display:flex;gap:26px;align-items:baseline;flex-wrap:wrap}
+  .cta-link{
+    font-weight:700;color:var(--accent);text-decoration:none;font-size:17px;
+    border-bottom:1.5px solid var(--accent);padding-bottom:3px;
+  }
+  .cta-link:hover{opacity:.75}
+  .cta-sub{font-size:13px;color:var(--ink-soft)}
+  .vertical-kicker{
+    position:absolute;left:calc(var(--pad)*-1 + 18px);top:54%;transform:translateY(-50%);
+    writing-mode:vertical-rl;font-size:12px;letter-spacing:.42em;color:var(--ink-soft);
+    border-left:1px solid var(--hairline);padding-left:10px;
+  }
+  .hero-print{max-width:360px;justify-self:end}
+
+  /* ============ 러닝헤드 + 스프레드 공통 ============ */
+  .spread{padding-block:clamp(64px,9vw,110px)}
+  .runhead{
+    display:flex;justify-content:space-between;font-size:11.5px;letter-spacing:.14em;
+    color:var(--ink-soft);border-top:1px solid var(--hairline);padding-top:9px;margin-bottom:clamp(40px,6vw,72px);
+  }
+  .duo{display:grid;grid-template-columns:7fr 5fr;gap:clamp(32px,5vw,72px);align-items:center}
+  .duo.flip{grid-template-columns:5fr 7fr}
+
+  /* ============ 독자 사연 ============ */
+  .letters{border-top:2px solid var(--ink);padding-top:clamp(44px,6vw,64px)}
+  .letters-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(28px,4vw,52px);margin-top:clamp(40px,5vw,60px)}
+  .letter blockquote{
+    font-family:var(--serif);font-size:20px;line-height:1.65;font-weight:600;max-inline-size:14ch;
+  }
+  .letter .from{margin-top:16px;font-size:13px;color:var(--ink-soft)}
+  .letter{border-left:1px solid var(--hairline);padding-left:22px}
+
+  /* ============ 02 리포트 — 타이포 스프레드 ============ */
+  .pull{
+    font-family:var(--serif);font-weight:600;font-size:clamp(24px,3.2vw,36px);
+    line-height:1.62;max-inline-size:18ch;
+  }
+  .pull .u{box-shadow:inset 0 -0.45em rgba(79,123,217,.18)}
+  .pull-src{margin-top:22px;font-size:13px;color:var(--ink-soft);letter-spacing:.08em}
+
+  /* ============ 03 그래프 — 모눈 + 손주석 ============ */
+  .graph-panel{
+    background-image:linear-gradient(var(--hairline) 1px,transparent 1px),linear-gradient(90deg,var(--hairline) 1px,transparent 1px);
+    background-size:36px 36px;padding:clamp(28px,4vw,52px);border:1px solid var(--hairline);
+    position:relative;
+  }
+  .annot{position:absolute;z-index:3;pointer-events:none}
+
+  /* ============ 05 챗 — 서간문 ============ */
+  .letterpress .q{font-family:var(--pen);font-size:26px;color:var(--ink);margin-top:34px}
+  .letterpress .q::before{content:"Q. ";color:var(--stamp);font-family:var(--serif);font-size:19px;font-weight:700}
+  .letterpress .a{
+    font-family:var(--serif);font-size:16.5px;line-height:2;margin-top:14px;padding-left:26px;
+    border-left:1px solid var(--hairline);max-width:30em;color:#332e26;
+  }
+
+  /* ============ 06 스펙표 ============ */
+  .spec{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+  .spec td{border-top:1px solid var(--hairline);padding:7px 2px;color:var(--ink-soft)}
+  .spec td:last-child{text-align:right;color:var(--ink);font-weight:600}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,48px);align-items:start}
+
+  /* ============ 콘택트시트 ============ */
+  .contact{background:var(--film);padding-block:clamp(56px,8vw,88px);color:#EFEAE0}
+  .contact .runhead{color:#9a9285;border-color:#4a443b}
+  .contact h2{color:#F5F2EB}
+  .contact .lead{color:#b3aa99}
+  .strip{
+    margin-top:46px;display:flex;gap:26px;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding:34px 8px;-webkit-overflow-scrolling:touch;
+    border-top:14px solid transparent;border-bottom:14px solid transparent;
+    border-image:repeating-linear-gradient(90deg,transparent 0 9px,#16130e 9px 27px,transparent 27px 36px) 14;
+  }
+  .frame{flex:0 0 auto;scroll-snap-align:center;text-align:center}
+  .frame img{height:330px;width:auto;border:1px solid #4a443b;filter:saturate(.95) contrast(.98)}
+  .frame .no{font-size:11px;letter-spacing:.22em;color:#cfc6b4;margin-top:12px}
+  .strip::-webkit-scrollbar{height:6px}
+  .strip::-webkit-scrollbar-thumb{background:#4a443b;border-radius:3px}
+
+  /* ============ 작동방식 / 로드맵 / FAQ ============ */
+  .steps-ed{margin-top:clamp(40px,5vw,60px)}
+  .step-row{display:grid;grid-template-columns:90px 1fr 2fr;gap:clamp(18px,3vw,44px);padding:30px 0;border-top:1px solid var(--hairline);align-items:baseline}
+  .step-row h3{font-family:var(--serif);font-size:21px;font-weight:700}
+  .step-row p{color:var(--ink-soft);font-size:15.5px;max-width:30em}
+
+  .vision-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(28px,4vw,52px);margin-top:clamp(44px,6vw,68px)}
+  .vision-cols > div{border-top:1px solid var(--hairline);padding-top:20px}
+  .vision-cols h3{font-family:var(--serif);font-size:18.5px;font-weight:700;margin-bottom:10px}
+  .vision-cols h3::before{content:"";display:inline-block;width:8px;height:8px;background:var(--accent);margin-right:9px;vertical-align:2px}
+  .vision-cols p{font-size:14.5px;color:var(--ink-soft);line-height:1.9}
+
+  .rm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,48px);margin-top:clamp(40px,5vw,60px)}
+  .rm{border-top:2px solid var(--ink);padding-top:22px;position:relative}
+  .rm h3{font-family:var(--serif);font-size:20px;font-weight:700;margin:10px 0 8px}
+  .rm p{font-size:14.5px;color:var(--ink-soft)}
+  .rm .ver{font-size:13px;letter-spacing:.14em;color:var(--ink-soft)}
+  .rm .stamp{position:absolute;top:14px;right:0;font-size:12px;padding:4px 9px}
+  .rm .stamp.done{color:var(--ink-soft);border-color:var(--ink-soft);transform:rotate(2deg)}
+  .rm .stamp.now{transform:rotate(-3deg)}
+
+  .faq-ed{max-width:760px}
+  .faq-ed details{border-top:1px solid var(--hairline);padding:22px 2px}
+  .faq-ed details:last-child{border-bottom:1px solid var(--hairline)}
+  .faq-ed summary{
+    cursor:pointer;font-family:var(--serif);font-weight:600;font-size:17.5px;list-style:none;
+    display:flex;justify-content:space-between;gap:16px;align-items:baseline;
+  }
+  .faq-ed summary::-webkit-details-marker{display:none}
+  .faq-ed summary::after{content:"＋";color:var(--ink-soft);font-family:var(--sans);font-size:15px;flex:0 0 auto}
+  .faq-ed details[open] summary::after{content:"－"}
+  .faq-ed details p{margin-top:14px;font-size:15px;color:var(--ink-soft);max-width:38em}
+
+  /* ============ 구독 엽서 ============ */
+  .postcard{
+    border:1px solid var(--ink);background:var(--paper);position:relative;
+    padding:clamp(40px,6vw,72px) clamp(28px,5vw,64px);
+    box-shadow:0 1px 2px rgba(25,20,10,.07),0 18px 40px -18px rgba(25,20,10,.22);
+  }
+  .postcard::after{content:"";position:absolute;inset:9px;border:1px solid var(--hairline);pointer-events:none}
+  .postcard .stamp{position:absolute;top:26px;right:26px;transform:rotate(4deg)}
+  .postcard h2{font-family:var(--serif);font-weight:700;font-size:clamp(26px,3.6vw,40px);line-height:1.45;max-inline-size:15ch}
+  .postcard .lead{margin-top:18px;font-size:15.5px}
+
+  /* ============ 마키 티커 ============ */
+  .ticker{border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);overflow:hidden;padding:13px 0;background:var(--bg)}
+  .ticker-track{display:flex;gap:0;width:max-content;animation:tick 36s linear infinite}
+  .ticker span{font-family:var(--serif);font-size:14.5px;letter-spacing:.22em;color:var(--ink-soft);white-space:nowrap;padding-right:.6em}
+  .ticker b{color:var(--accent-ink);font-weight:600}
+  @keyframes tick{to{transform:translateX(-50%)}}
+
+  /* ============ 그리고, 밤 — 수면 티저 ============ */
+  .night{background:#101A2E;color:#E9EDF6;position:relative;overflow:hidden;padding-block:clamp(88px,12vw,150px)}
+  .night::before{ /* 별 — 절제된 점 몇 개 */
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:radial-gradient(circle 1px at 12% 22%, #BFD2F5 99%, transparent),
+      radial-gradient(circle 1px at 78% 14%, #BFD2F5 99%, transparent),
+      radial-gradient(circle 1.4px at 64% 64%, #8FA9DC 99%, transparent),
+      radial-gradient(circle 1px at 30% 76%, #BFD2F5 99%, transparent),
+      radial-gradient(circle 1px at 88% 48%, #8FA9DC 99%, transparent);
+  }
+  .night .page{position:relative}
+  .night .runhead{color:#7484A4;border-color:#27344E}
+  .night .kicker{color:#8FA9DC}
+  .night h2{font-family:var(--serif);font-weight:700;font-size:clamp(34px,5.5vw,60px);line-height:1.35;max-inline-size:13ch;color:#F3F0E8}
+  .night .lead{color:#9AA7C2;max-width:25em;margin-top:24px}
+  .night .lead b{color:#DCE4F4;font-weight:600}
+  .moon{
+    position:absolute;right:4%;top:8%;width:clamp(90px,12vw,150px);aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle at 38% 38%, #F2EFE6 0%, #D9DCE2 70%, #C5CBD8 100%);
+    box-shadow:0 0 60px rgba(190,205,240,.25);
+  }
+  .moon::after{ /* 그믐 그림자 */
+    content:"";position:absolute;inset:0;border-radius:50%;
+    background:radial-gradient(circle at 72% 50%, #101A2E 0 56%, transparent 57%);
+  }
+  .night .stamp{color:#8FA9DC;border-color:#8FA9DC;margin-top:34px;display:inline-block}
+  .night figcaption{border-color:#27344E;color:#7484A4;margin-top:46px;max-width:420px}
+  .night figcaption b{color:#DCE4F4}
+
+  /* ============ 인화 '현상' 효과 ============ */
+  .print img{transition:filter 1.4s ease}
+  .print:not(.dev) img{filter:sepia(.08) saturate(.55) contrast(.93) brightness(1.05)}
+  .print.dev img{filter:sepia(.05) saturate(.95) contrast(.97)}
+
+  /* ============ 스크롤 진행선 ============ */
+  #progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);width:0;z-index:99}
+
+  /* ============ 독자 사연 인용부호 ============ */
+  .letter blockquote{position:relative}
+  .letter blockquote::before{
+    content:"“";position:absolute;left:-6px;top:-34px;font-family:var(--serif);
+    font-size:64px;line-height:1;color:var(--accent);opacity:.28;
+  }
+
+  .cta-link{transition:border-bottom-width .15s ease,color .15s ease}
+  .cta-link:hover{opacity:1;color:var(--accent-ink);border-bottom-width:2.5px}
+
+  footer{padding:40px 0 110px;color:var(--ink-soft);font-size:13px;overflow:hidden}
+  footer .page{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:2px solid var(--ink);padding-top:18px}
+  .giant-mark{
+    display:block;text-align:center;font-family:var(--serif);font-weight:700;
+    font-size:clamp(58px,12.5vw,168px);letter-spacing:.08em;line-height:1.05;
+    color:transparent;-webkit-text-stroke:1px rgba(27,24,19,.5);
+    margin:clamp(36px,6vw,72px) auto 0;user-select:none;
+  }
+
+  /* 살아있는 폴리오 */
+  #folio{
+    position:fixed;right:18px;bottom:14px;z-index:95;font-size:11.5px;letter-spacing:.1em;
+    color:var(--ink-soft);background:var(--bg);border:1px solid var(--hairline);padding:5px 11px;
+  }
+
+  /* ============ 모바일 ============ */
+  @media (max-width:880px){
+    .display{max-inline-size:13ch}
+    .hero-grid{grid-template-columns:1fr;gap:54px}
+    .hero-print{justify-self:center;max-width:300px;margin-right:-7vw}
+    .vertical-kicker{display:none}
+    .duo,.duo.flip{grid-template-columns:1fr;gap:40px}
+    .letters-grid{grid-template-columns:1fr;gap:34px}
+    .vision-cols{grid-template-columns:1fr;gap:30px}
+    .pair{grid-template-columns:1fr}
+    .rm-grid{grid-template-columns:1fr}
+    .step-row{grid-template-columns:64px 1fr;grid-template-rows:auto auto}
+    .step-row p{grid-column:2}
+    #folio{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- 매스트헤드 -->
+<div class="page masthead">
+  <div class="masthead-in">
+    <img src="assets/logo.png" alt="ARECURA" style="height:17px;width:auto" />
+    <span class="issue">내 몸을 읽어주는 AI 코치 · iOS</span>
+  </div>
+</div>
+
+<!-- ============ 표지 스프레드 ============ -->
+<section class="page hero" data-page="01">
+  <span class="vertical-kicker">달리고, 먹고, 기록한다</span>
+  <div class="hero-grid">
+    <div>
+      <div class="stamp-line"><span class="stamp">출시 준비 중</span><span class="kicker">iOS · Apple Health</span></div>
+      <h1 class="display">기록이 쌓이면,<br />몸은 <span style="color:var(--accent-ink)">답</span>을<br />보여줍니다.</h1>
+      <p class="lead">러닝·식단·체중·웨이트가 한 곳에 모이면 AI 코치가 내 몸의 패턴을 읽고, 다음 행동까지 정리해 드려요.</p>
+      <div class="cta-line">
+        <a class="cta-link" href="#early" >출시 알림 받기 →</a>
+        <span class="cta-sub">스팸 없이, 출시 소식 한 번만.</span>
+      </div>
+    </div>
+    <div></div>
+    <figure class="print hero-print cropmarks">
+      <div class="ph"><img src="assets/home.png" alt="ARECURA 홈 화면" width="720" height="1400" /></div>
+      <figcaption><b>fig.00</b> — 6월 10일 저녁의 홈. 14일 러닝 93.0km, 체중 −1.4kg</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 마키 티커 -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>달리고 · 먹고 · <b>자고</b> · 기록한다 — ARECURA · </span><span>달리고 · 먹고 · <b>자고</b> · 기록한다 — ARECURA · </span><span>달리고 · 먹고 · <b>자고</b> · 기록한다 — ARECURA · </span><span>달리고 · 먹고 · <b>자고</b> · 기록한다 — ARECURA · </span>
+  </div>
+</div>
+
+<!-- ============ 독자 사연 ============ -->
+<section class="page spread letters" data-page="02">
+  <span class="kicker">독자 사연 — 우리가 이 앱을 만든 이유</span>
+  <div class="letters-grid">
+    <div class="letter">
+      <blockquote class="serif">"일주일을 뛰었는데, 체중은 왜 안 줄까요."</blockquote>
+      <p class="from">— 운동은 데이터로 남는데, 아무도 이유를 짚어주지 않습니다.</p>
+    </div>
+    <div class="letter">
+      <blockquote class="serif">"러닝 앱, 체중계 앱, 식단 메모. 다 따로예요."</blockquote>
+      <p class="from">— 흩어진 기록은 서로 연결되지 않아, 읽을 수 없는 숫자로 남습니다.</p>
+    </div>
+    <div class="letter">
+      <blockquote class="serif">"주 5회 계획은 야근 앞에서 무너져요."</blockquote>
+      <p class="from">— 내 일정을 모르는 계획은 계획이 아닙니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 01 식단 ============ -->
+<section class="page spread" data-page="03">
+  <div class="runhead"><span>ARECURA</span><span>식단</span></div>
+  <div class="duo">
+    <figure class="print">
+      <div class="crop-45 ph"><img src="assets/diet.png" alt="식단 기록 — 칼로리와 탄단지" width="720" height="900" style="object-position:50% 14%" /></div>
+      <figcaption><b>fig.01</b> — 오늘 식단 1,242kcal · 928kcal 남음, 탄단지 자동 집계</figcaption>
+    </figure>
+    <div>
+      <div class="num">01</div>
+      <h2 class="sec-title">사진 한 장이면,<br />식단 기록은 끝.</h2>
+      <p class="lead body-col" style="margin-top:20px">음식 사진을 올리면 AI가 음식명·양·칼로리·탄수화물·단백질·지방을 정리합니다. "밥은 절반만 먹었어" 한마디면 알아서 다시 계산하고, 가공도와 혈당 영향까지 음식마다 평가해요.</p>
+      <p class="pen" style="margin-top:26px">찍기만 하면 끝 ✓</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 리포트 ============ -->
+<section class="page spread" data-page="04">
+  <div class="runhead"><span>ARECURA</span><span>AI 리포트</span></div>
+  <div class="duo flip">
+    <div>
+      <div class="num">02</div>
+      <p class="pull" style="margin-top:22px">"체중 안정적 감량 중.<br /><span class="u">정체기 아직 없어,<br />페이스 그대로 가도 OK.</span>"</p>
+      <p class="pull-src">— 6월 둘째 주, AI 리포트의 '이번 주 진단' 전문</p>
+      <p class="lead body-col" style="margin-top:30px">14일의 기록을 AI 코치가 읽고 한 장으로 정리합니다. 진단, 원인 추정, 다음 주 운동·식단 계획, 체크포인트까지 — 트레이너의 주간 면담처럼.</p>
+    </div>
+    <figure class="print">
+      <div class="crop-45 ph"><img src="assets/report.png" alt="AI 리포트" width="720" height="900" style="object-position:50% 30%" /></div>
+      <figcaption><b>fig.02</b> — AI 리포트, 14일 기준 · 진단→원인→다음 주 계획</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 03 그래프 ============ -->
+<section class="page spread" data-page="05">
+  <div class="runhead"><span>ARECURA</span><span>패턴</span></div>
+  <div class="duo">
+    <div class="graph-panel">
+      <figure class="print" style="max-width:430px;margin:0 auto">
+        <div class="ph"><img src="assets/graph.png" alt="체중 변화와 칼로리 부채" width="720" height="1400" /></div>
+        <figcaption><b>fig.03</b> — 체중 71.0→69.1kg · 칼로리 부채 7,303kcal</figcaption>
+      </figure>
+      <svg class="annot" viewBox="0 0 120 90" width="110" style="right:4%;top:18%">
+        <path d="M105 8 C 70 18, 48 38, 38 66" fill="none" stroke="#3760C4" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M48 58 L 37 68 L 33 53" fill="none" stroke="#3760C4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="pen annot" style="right:-2%;top:8%;color:#3760C4">2주 만에 −1.4kg</span>
+    </div>
+    <div>
+      <div class="num">03</div>
+      <h2 class="sec-title">추정 말고,<br />실제 데이터로.</h2>
+      <p class="lead body-col" style="margin-top:20px">14일 체중 곡선과 칼로리 부채(누적 적자)를 함께 보면, 지금 페이스가 <span class="accentnum">−0.95kg</span> 분량의 적자를 쌓았다는 게 한눈에 보입니다. 관찰된 패턴만 정리하고, 의료적 단정은 하지 않습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 주간 플랜 ============ -->
+<section class="page spread" data-page="06">
+  <div class="runhead"><span>ARECURA</span><span>주간 플랜</span></div>
+  <span class="kicker">No.04 — 회사 일정 사이, 뛸 수 있는 시간</span>
+  <h2 class="sec-title" style="margin-top:14px">계획이 내 시간표 위에<br />그려집니다.</h2>
+  <p class="lead body-col" style="margin-top:18px">고정 일정과 생활 패턴을 올리면 AI가 현실적으로 운동 가능한 시간대를 찾아 러닝·헬스를 배치하고, 30분 전에 알려줘요. 시간표 사진은 OCR로 한 번에 등록됩니다.</p>
+  <div class="pair" style="margin-top:48px">
+    <figure class="print">
+      <div class="crop-45 ph"><img src="assets/plan.png" alt="이번 주 시간표" width="720" height="900" style="object-position:50% 42%" /></div>
+      <figcaption><b>fig.04a</b> — 월요일의 시간표. 회사 09–18시, 비는 저녁</figcaption>
+    </figure>
+    <figure class="print">
+      <div class="crop-45 ph"><img src="assets/plan-ai.png" alt="AI 시간대 제안" width="720" height="900" style="object-position:50% 78%" /></div>
+      <figcaption><b>fig.04b</b> — AI의 수정 제안. "수·금 19–21시, 토요일은 긴 러닝"</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 05 코치와의 대화 ============ -->
+<section class="page spread" data-page="07">
+  <div class="runhead"><span>ARECURA</span><span>코치와의 대화</span></div>
+  <div class="duo flip">
+    <div class="letterpress">
+      <div class="num">05</div>
+      <h2 class="sec-title" style="margin-top:10px">내 데이터를 아는<br />코치에게 묻다.</h2>
+      <div class="q">체중이 4–5일째 안 빠지는데, 칼로리 더 줄여야 해?</div>
+      <p class="a">4–5일은 정체기보다는 수분 변동일 가능성이 커. 주간 평균으로 봐서 1주 −0.2kg 미만이면, 그때 칼로리를 50 정도만 조정해보자.</p>
+      <div class="q">보충제 없이 단백질 100g 가능해?</div>
+      <p class="a">닭가슴살 100g(24g) · 계란 2개(12g) · 두부 반 모(10g) · 그릭요거트(10g) 조합이면 자연식만으로 100–120g은 쉽게 채워. 매 끼니 단백질 먼저 먹는 순서를 추천해.</p>
+      <p class="pull-src" style="margin-top:26px">— 실제 코치 대화에서 발췌. 사진을 보내면 채팅 안에서 식단 분석까지.</p>
+    </div>
+    <figure class="print cropmarks" style="max-width:380px;justify-self:center">
+      <div class="crop-11 ph"><img src="assets/chat.png" alt="AI 코치 채팅" width="720" height="720" style="object-position:50% 42%" /></div>
+      <figcaption><b>fig.05</b> — AI 코치와의 대화, 새벽에도</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 06 체성분·웨이트 ============ -->
+<section class="page spread" data-page="08">
+  <div class="runhead"><span>ARECURA</span><span>체성분 · 웨이트</span></div>
+  <span class="kicker">No.06 — 검사지 한 장, 동작 86개</span>
+  <h2 class="sec-title" style="margin-top:14px">체성분 검사지도, 헬스 기록도<br />같은 흐름 위에.</h2>
+  <p class="lead body-col" style="margin-top:18px">체성분 검사지는 사진 한 장으로 수치가 자동 추출되고, 웨이트는 부위별 동작 카탈로그에서 골라 세트·무게를 기록합니다. 근육 회복 시간을 고려해 다음 운동을 추천해요.</p>
+  <div class="pair" style="margin-top:48px">
+    <figure class="print">
+      <div class="crop-45 ph"><img src="assets/body.png" alt="체성분 기록" width="720" height="900" style="object-position:50% 12%" /></div>
+      <figcaption><b>fig.06a</b> — 체성분 자동 추출</figcaption>
+      <table class="spec">
+        <tr><td>입력</td><td>검사지 사진 · PDF</td></tr>
+        <tr><td>추출 항목</td><td>체중 · 골격근량 · 체지방률</td></tr>
+        <tr><td>이번 측정</td><td>골격근 31.7kg · 체지방률 18.5%</td></tr>
+      </table>
+    </figure>
+    <figure class="print">
+      <div class="crop-45 ph"><img src="assets/workout.png" alt="운동 부위 선택" width="720" height="900" style="object-position:50% 28%" /></div>
+      <figcaption><b>fig.06b</b> — 부위별 동작 카탈로그</figcaption>
+      <table class="spec">
+        <tr><td>부위</td><td>가슴 · 등 · 어깨 · 팔 · 하체 · 복근</td></tr>
+        <tr><td>동작</td><td>86개 — 폼 가이드 포함</td></tr>
+        <tr><td>기록</td><td>세트 × 무게 × 횟수</td></tr>
+      </table>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 콘택트시트 ============ -->
+<section class="contact" data-page="09">
+  <div class="page">
+    <div class="runhead"><span>ARECURA</span><span>콘택트시트</span></div>
+    <span class="kicker" style="color:#9a9285">전체 컷 보기</span>
+    <h2 class="sec-title">앱을 이루는<br />아홉 장면.</h2>
+    <p class="lead" style="margin-top:14px">좌우로 넘겨보세요 — 홈부터 코치 대화까지, 앱의 실제 화면 그대로.</p>
+  </div>
+  <div class="page">
+    <div class="strip">
+      <div class="frame"><img src="assets/home.png" alt="홈" /><div class="no">ARE-01 · 홈</div></div>
+      <div class="frame"><img src="assets/diet.png" alt="식단" /><div class="no">ARE-02 · 식단</div></div>
+      <div class="frame"><img src="assets/report.png" alt="리포트" /><div class="no">ARE-03 · 리포트</div></div>
+      <div class="frame"><img src="assets/graph.png" alt="그래프" /><div class="no">ARE-04 · 패턴</div></div>
+      <div class="frame"><img src="assets/plan.png" alt="플랜" /><div class="no">ARE-05 · 시간표</div></div>
+      <div class="frame"><img src="assets/plan-ai.png" alt="AI 제안" /><div class="no">ARE-06 · AI 제안</div></div>
+      <div class="frame"><img src="assets/chat.png" alt="챗" /><div class="no">ARE-07 · 코치</div></div>
+      <div class="frame"><img src="assets/body.png" alt="체성분" /><div class="no">ARE-08 · 체성분</div></div>
+      <div class="frame"><img src="assets/workout.png" alt="웨이트" /><div class="no">ARE-09 · 웨이트</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 작동방식 ============ -->
+<section class="page spread" data-page="10">
+  <div class="runhead"><span>ARECURA</span><span>사용법</span></div>
+  <span class="kicker">How to use</span>
+  <h2 class="sec-title" style="margin-top:14px">기록은 가볍게,<br />해석은 AI가.</h2>
+  <div class="steps-ed">
+    <div class="step-row">
+      <span class="num" style="font-size:44px">1</span>
+      <h3>가볍게 기록</h3>
+      <p>식단은 사진 한 장, 체중은 숫자 하나. 러닝은 Apple Health에서 자동으로 들어옵니다.</p>
+    </div>
+    <div class="step-row">
+      <span class="num" style="font-size:44px">2</span>
+      <h3>AI가 연결·분석</h3>
+      <p>운동·식사·체중 변화를 한 타임라인에 묶어, 어떤 날 무엇이 효과 있었는지 패턴을 찾습니다.</p>
+    </div>
+    <div class="step-row" style="border-bottom:1px solid var(--hairline)">
+      <span class="num" style="font-size:44px">3</span>
+      <h3>다음 행동 제안</h3>
+      <p>14일 리포트와 주간 플랜으로 "다음 주에 뭘 할지"가 정리됩니다. 궁금하면 코치에게 바로 질문하세요.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 그리고, 밤 — 수면 (COMING) ============ -->
+<section class="night" id="night" data-page="11">
+  <div class="page">
+    <div class="runhead"><span>ARECURA</span><span>다음 장</span></div>
+    <div class="moon" aria-hidden="true"></div>
+    <span class="kicker">Coming — Sleep</span>
+    <h2 style="margin-top:22px">그리고, 밤.</h2>
+    <p class="lead">잘 잔 날의 러닝은 가볍고, 못 잔 밤 다음 날은 식욕이 흔들립니다.<br />
+    다음 업데이트에서 <b>수면</b>이 연결됩니다 — 운동과 식단, 그리고 <b>회복</b>까지 함께 읽는 코치.</p>
+    <span class="stamp">COMING SOON</span>
+    <figcaption><b>fig.—</b> — 수면 × 회복, 준비 중인 장면</figcaption>
+  </div>
+</section>
+
+<!-- ============ 비전 ============ -->
+<section class="page spread" data-page="12">
+  <div class="runhead"><span>ARECURA</span><span>비전</span></div>
+  <span class="kicker">Vision</span>
+  <p class="pull" style="margin-top:28px">우리는 기록 앱이 아니라,<br /><span class="u">내 몸의 해석</span>을 만듭니다.</p>
+  <div class="vision-cols">
+    <div>
+      <h3>코칭의 문턱을 낮추기</h3>
+      <p>좋은 코치는 비쌉니다. PT 한 회에 수만 원 — 정작 필요한 건 매일의 데이터를 읽고 "다음에 뭘 할지" 말해주는 한 사람인데요. ARECURA는 그 해석을 월 7,900원의 AI 코치로 모두에게 돌려줍니다.</p>
+    </div>
+    <div>
+      <h3>몸의 데이터를 하나로</h3>
+      <p>출발은 러닝·식단·체중·웨이트·체성분. 다음은 수면과 스트레스, 검진 데이터까지 — 흩어진 건강 기록을 하나의 타임라인으로 모아, 내 몸에 관한 질문에 답하는 단 하나의 해석 레이어가 됩니다.</p>
+    </div>
+    <div>
+      <h3>먼저 말 걸어주는 코치</h3>
+      <p>끝에는, 묻기 전에 먼저 다가오는 코치가 있습니다. "이번 주 회복이 부족해요, 오늘은 가볍게 걷죠." — 기록→분석→제안이 대화 하나로 이어지는 미래를 만듭니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 로드맵 ============ -->
+<section class="page spread" data-page="13" style="padding-top:0">
+  <div class="runhead"><span>ARECURA</span><span>로드맵</span></div>
+  <span class="kicker">Roadmap</span>
+  <h2 class="sec-title" style="margin-top:14px">그 여정의 세 단계.</h2>
+  <div class="rm-grid">
+    <div class="rm">
+      <span class="stamp done">완료</span>
+      <div class="ver">V1</div>
+      <h3>데이터 수집 &amp; 패턴 분석</h3>
+      <p>Apple Health 러닝과 체중·식단 기록을 연결해 14일 패턴을 분석하고, 변화의 원인을 짚습니다.</p>
+    </div>
+    <div class="rm">
+      <span class="stamp now">진행 중</span>
+      <div class="ver">V2</div>
+      <h3>맞춤 계획 수립</h3>
+      <p>분석 결과와 내 일정·컨디션으로 주간 운동·식단 계획을 자동 생성하고, 주중 상황에 맞게 조정합니다.</p>
+    </div>
+    <div class="rm">
+      <span class="stamp" style="color:var(--ink-soft);border-color:var(--ink-soft);transform:rotate(1.5deg)">예정</span>
+      <div class="ver">V3</div>
+      <h3>AI 코치 봇 고도화</h3>
+      <p>대화만으로 기록→분석→조정이 이어지는 코칭 루프. 먼저 말 걸어주는 프로액티브 코치로.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="page spread" data-page="14">
+  <div class="runhead"><span>ARECURA</span><span>문답</span></div>
+  <span class="kicker">FAQ</span>
+  <h2 class="sec-title" style="margin-top:14px;margin-bottom:40px">자주 묻는 질문</h2>
+  <div class="faq-ed">
+    <details>
+      <summary>건강 데이터는 안전하게 관리되나요?</summary>
+      <p>러닝·체중 기록은 기본적으로 내 기기에 저장됩니다. AI 분석에는 요약된 수치만 전달되며, 원본 사진과 로그를 외부에 쌓아두지 않습니다. Apple Health 접근 권한은 언제든 끌 수 있어요.</p>
+    </details>
+    <details>
+      <summary>다이어트(감량) 전용 앱인가요?</summary>
+      <p>아니요. 감량·유지·린매스업(증량)까지 목표를 선택할 수 있고, 칼로리·단백질 목표와 리포트의 톤이 목표에 맞춰 달라집니다.</p>
+    </details>
+    <details>
+      <summary>러닝을 안 해도 쓸 수 있나요?</summary>
+      <p>네. 식단 AI 분석, 체중·체성분 추적, 웨이트 기록만으로도 충분히 쓸 수 있습니다. 러닝은 Apple Health와 연동되는 강력한 옵션 중 하나예요.</p>
+    </details>
+    <details>
+      <summary>의학적 조언을 해주나요?</summary>
+      <p>아니요. ARECURA는 관찰된 패턴을 정리해주는 코치이지, 의료 기기가 아닙니다. 진단·처방을 하지 않으며, 건강 이상이 의심되면 전문의 상담을 권합니다.</p>
+    </details>
+    <details>
+      <summary>언제, 얼마에 출시되나요?</summary>
+      <p>iOS 베타를 준비 중입니다. 핵심 기능은 무료로 시작하고, AI 분석 횟수를 늘려주는 Plus 플랜(월 7,900원 예정)을 함께 선보일 계획이에요. 아래에서 출시 알림을 신청해 주세요.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 구독 엽서 ============ -->
+<section class="page spread" id="early" data-page="15">
+  <div class="postcard">
+    <span class="stamp">EARLY ACCESS</span>
+    <span class="kicker">출시 알림 신청</span>
+    <h2 style="margin-top:16px">다음 장면은,<br />당신의 홈 화면에서.</h2>
+    <p class="lead">메일을 남기면 App Store 출시 소식을 가장 먼저 알려드릴게요.<br />스팸 없이, 출시 알림 딱 한 번만 보냅니다.</p>
+    <div class="cta-line">
+      <!-- ★2026-08-19 — 두 링크가 `href="#"` 이라 ★아무 데도 안 갔다.
+           공개 페이지의 죽은 링크는 사용자에겐 고장으로 보이고 심사에서도 지적된다.
+           알림 폼·오픈채팅이 준비되면 그때 여기를 바꾼다. 그전까지는
+           ★있는 창구(문의하기)로 보낸다 — 없는 곳으로 보내는 것보다 낫다. -->
+      <a class="cta-link" href="support.html" data-cta="notify">문의하기 →</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  footer .site-links { display:block; margin-top:6px; font-size:12px; opacity:.75 }
+  footer .site-links a { color:inherit; text-decoration:underline }
+</style>
+<footer>
+  <div class="page">
+    <img src="assets/logo.png" alt="ARECURA" style="height:13px;width:auto;opacity:.92" />
+    <span>© 2026 ARECURA. All rights reserved.</span>
+    <!-- ★App Store 심사가 요구하는 세 자리(문의·방침·약관)로 가는 길.
+         방침·약관 페이지는 ★손으로 안 적는다 — scripts/gen-legal-docs.py 가
+         앱 화면(Swift)에서 함께 뽑는다. 갈라지면 둘 중 하나가 거짓이다. -->
+    <span class="site-links">
+      <a href="support.html">문의하기</a> ·
+      <a href="privacy.html">개인정보처리방침</a> ·
+      <a href="terms.html">이용약관</a>
+    </span>
+  </div>
+  <span class="giant-mark" aria-hidden="true">ARECURA</span>
+</footer>
+
+<div id="folio">p.01 — ARECURA</div>
+<div id="progress"></div>
+
+<script>
+  // 살아있는 폴리오 — 섹션 진입마다 쪽번호가 넘어간다
+  const folio = document.getElementById('folio');
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) folio.textContent = 'p.' + e.target.dataset.page + ' — ARECURA';
+  }), {rootMargin:'-40% 0px -55% 0px'});
+  document.querySelectorAll('[data-page]').forEach(s => obs.observe(s));
+
+  // 스크롤 진행선 — 잉크가 차오르는 독서 진행 표시
+  const bar = document.getElementById('progress');
+  addEventListener('scroll', () => {
+    const h = document.documentElement;
+    bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  }, {passive:true});
+
+  // 인화 '현상' — 사진이 뷰포트에 들어오면 색이 차오른다
+  const dev = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('dev'); dev.unobserve(e.target); }
+  }), {threshold:.25});
+  document.querySelectorAll('.print').forEach(p => dev.observe(p));
+
+  // CTA placeholder — 링크 연결 전 임시
+  document.querySelectorAll('[data-cta]').forEach(a => a.addEventListener('click', e => {
+    if (a.getAttribute('href') === '#') { e.preventDefault(); alert('출시 알림 링크는 곧 연결됩니다!'); }
+  }));
+</script>
+</body>
+</html>
