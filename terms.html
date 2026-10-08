@@ -3,44 +3,89 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>이용약관 (ARECURA)</title>
+<title>이용약관 (Arecura)</title>
+<meta name="description" content="Arecura 이용약관. 베타 서비스, 건강과 AI 정보의 한계, 계정과 데이터, 서비스 이용 조건을 적었어요." />
+<link rel="canonical" href="https://98eddie.github.io/arecura-web/terms.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Arecura" />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:title" content="이용약관 (Arecura)" />
+<meta property="og:description" content="Arecura 이용약관. 베타 서비스, 건강과 AI 정보의 한계, 계정과 데이터, 서비스 이용 조건을 적었어요." />
+<meta property="og:url" content="https://98eddie.github.io/arecura-web/terms.html" />
+<meta property="og:image" content="https://98eddie.github.io/arecura-web/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#FFFFFF" />
+<meta name="color-scheme" content="only light" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <style>
-  :root { color-scheme: light dark; }
-  body { margin: 0 auto; padding: 32px 20px 64px; max-width: 720px;
-         font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
-         color: #1c1c1e; background: #fff; word-break: keep-all; }
-  @media (prefers-color-scheme: dark) { body { color: #f2f2f7; background: #111; } }
-  h1 { font-size: 26px; margin: 0 0 8px; }
-  h2 { font-size: 18px; margin: 32px 0 8px; }
-  p { margin: 0 0 12px; }
-  .eff { color: #8e8e93; font-size: 14px; margin-bottom: 24px; }
-  a { color: #2f6bd8; }
-  nav { margin-bottom: 24px; font-size: 14px; }
+  /* ★2026-10-08 홈페이지와 같은 앱 토큰(site/index.html :root). 앱 법률 화면(LegalDocumentView)처럼
+     조항마다 카드(.padding(16).cardStyle(), 카드 사이 16), 조항 제목 17 semibold, 문단 17 회색, 문단 사이 10. */
+  :root {
+    --card-border: rgba(0,0,0,.06); --hairline: .5px;
+    --card-shadow: 0 1px 4px rgba(0,0,0,.04), 0 4px 24px rgba(0,0,0,.06);
+    --ink: #000000; --muted: #707075; --blue: #3A639C;
+    --font: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { margin: 0 auto; padding: 16px 20px 64px; max-width: 720px; font-family: var(--font); font-size: 17px; line-height: 1.2;
+         color: var(--ink); background: #FFFFFF; word-break: keep-all; overflow-wrap: break-word; -webkit-font-smoothing: antialiased; }
+  p { line-height: calc(1.2em + 3px); text-wrap: pretty; }
+  h1, h2 { text-wrap: balance; }
+  a { color: var(--blue); }
+  a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
+  .back { display: inline-flex; align-items: center; min-height: 44px; font: 500 15px/1.2 var(--font); color: var(--ink); text-decoration: none; }
+  .back:active { opacity: .7; }
+  h1 { margin: 16px 0 8px; font-size: 28px; font-weight: 700; line-height: 1.2; }
+  .eff { margin: 0 0 20px; font-size: 13px; line-height: 1.2; color: var(--muted); }
+  .cards { display: grid; gap: 16px; }
+  .card { background: #FFFFFF; border: var(--hairline) solid var(--card-border); border-radius: 24px;
+          box-shadow: var(--card-shadow); padding: 16px; }
+  .card h2 { margin: 0 0 10px; font-size: 17px; font-weight: 600; line-height: 1.2; }
+  .card p { margin: 0 0 10px; color: var(--muted); }
+  .card p:last-child { margin-bottom: 0; }
 </style>
 </head>
 <body>
-<nav><a href="./">← ARECURA</a></nav>
+<nav aria-label="처음으로"><a class="back" href="./">← Arecura</a></nav>
+<main>
 <h1>이용약관</h1>
 <p class="eff">시행일 2026년 8월 7일</p>
+<div class="cards">
+<section class="card">
 <h2>1. 베타 서비스</h2>
 <p>Arecura는 현재 베타 서비스입니다. 기능, 제공 범위와 데이터 형식은 안정성과 품질 개선을 위해 변경되거나 일시 중단될 수 있습니다.</p>
 <p>베타 기간 Plus 기능은 무료이며, 화면의 출시 예정 가격은 결제 청약이나 가격 보장을 의미하지 않습니다. 유료 기능 도입 전 별도로 안내합니다.</p>
+</section>
+<section class="card">
 <h2>2. 건강, AI 정보의 한계</h2>
 <p>Arecura의 분석, 예상치와 코칭은 기록된 데이터와 일반적인 건강, 운동 정보를 바탕으로 한 참고 자료이며 의료 진단, 처방, 치료 또는 응급 서비스를 제공하지 않습니다.</p>
 <p>AI 답변은 먼저 회원님의 기록을 근거로 만들어집니다. 앱이 저장된 기록에서 그 기능에 필요한 부분(기간, 목표, 최근 체중, 식단, 운동, 컨디션 요약 등)만 골라 요약하고, 회원님이 입력한 질문, 메모와 함께 모델에 보냅니다. 평균, 추세, 기록 개수 같은 계산은 앱이 직접 하고, 모델은 그 결과를 읽기 쉬운 문장으로 정리합니다. 기록이 적은 부분은 일반적인 건강, 운동 정보로 채워지므로 회원님의 실제 상황과 다를 수 있습니다.</p>
 <p>AI 결과에는 누락이나 오류가 있을 수 있습니다. 체성분, 식단, 운동 기록은 저장 전 직접 확인하고, 통증, 부상, 질환, 임신 또는 섭식 문제와 관련된 결정은 의료 전문가와 상담해주세요.</p>
 <p>몸이 갑자기 아프거나 스스로 위급하다고 느껴질 때는 앱의 안내를 기다리지 마시고 119 또는 가까운 의료기관에 연락해주세요. Arecura는 진단이나 처방, 응급 대응을 하지 않습니다.</p>
+</section>
+<section class="card">
 <h2>3. 계정과 사용자의 책임</h2>
 <p>사용자는 정확하고 합법적인 정보를 입력하고 자신의 기기와 Apple 계정을 안전하게 관리해야 합니다. 타인의 개인정보, 건강정보 또는 사진을 동의 없이 업로드하면 안 됩니다.</p>
 <p>서비스의 보안, 사용량 제한을 우회하거나, 자동화된 대량 요청, 역공학, 불법, 유해 행위에 이용할 수 없습니다.</p>
+</section>
+<section class="card">
 <h2>4. 데이터와 콘텐츠</h2>
 <p>사용자는 자신이 입력한 기록과 콘텐츠에 대한 권리를 유지합니다. Arecura에는 서비스를 제공하고 사용자가 요청한 분석을 수행하는 데 필요한 범위의 처리 권한을 부여합니다.</p>
 <p>계정 삭제가 완료되면 계정에 연결된 건강, 식단, 운동 기록과 업로드한 원본 파일은 삭제됩니다. 재가입 악용을 막기 위한 최소한의 처리 이력은 1년간 남으며, 자세한 내용은 개인정보처리방침을 확인해주세요. 기기, 네트워크, 외부 제공자 장애가 있을 수 있으므로 중요한 건강 기록은 사용자가 별도로 보관해주세요.</p>
+</section>
+<section class="card">
 <h2>5. 서비스 이용과 책임</h2>
 <p>Arecura는 합리적인 범위에서 서비스의 안정성과 보안을 유지하지만, 베타 서비스의 무중단 제공이나 모든 계산, AI 결과의 정확성을 보증하지 않습니다.</p>
 <p>관련 법률이 허용하는 범위에서, 사용자가 참고 정보를 의료 판단으로 대체하거나 잘못 입력된 기록을 확인하지 않아 발생한 손해에 대해 Arecura의 책임은 제한될 수 있습니다.</p>
+</section>
+<section class="card">
 <h2>6. 변경, 종료와 준거법</h2>
 <p>중요한 약관 변경은 앱 또는 지정된 연락 수단으로 안내합니다. 사용자는 언제든 앱에서 계정을 삭제하고 이용을 종료할 수 있습니다.</p>
 <p>본 약관은 대한민국 법률을 따르며, 분쟁은 당사자 간 협의를 우선합니다. 해결되지 않는 경우 관련 절차법에 따른 관할 법원에서 처리합니다.</p>
+</section>
+</div>
+</main>
 </body>
 </html>

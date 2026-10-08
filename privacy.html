@@ -3,34 +3,70 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>개인정보처리방침 (ARECURA)</title>
+<title>개인정보처리방침 (Arecura)</title>
+<meta name="description" content="Arecura 개인정보처리방침. 처리하는 정보, 저장 위치, 외부로 전송되는 정보, 보유와 삭제, 권리와 문의를 적었어요." />
+<link rel="canonical" href="https://98eddie.github.io/arecura-web/privacy.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Arecura" />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:title" content="개인정보처리방침 (Arecura)" />
+<meta property="og:description" content="Arecura 개인정보처리방침. 처리하는 정보, 저장 위치, 외부로 전송되는 정보, 보유와 삭제, 권리와 문의를 적었어요." />
+<meta property="og:url" content="https://98eddie.github.io/arecura-web/privacy.html" />
+<meta property="og:image" content="https://98eddie.github.io/arecura-web/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#FFFFFF" />
+<meta name="color-scheme" content="only light" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <style>
-  :root { color-scheme: light dark; }
-  body { margin: 0 auto; padding: 32px 20px 64px; max-width: 720px;
-         font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
-         color: #1c1c1e; background: #fff; word-break: keep-all; }
-  @media (prefers-color-scheme: dark) { body { color: #f2f2f7; background: #111; } }
-  h1 { font-size: 26px; margin: 0 0 8px; }
-  h2 { font-size: 18px; margin: 32px 0 8px; }
-  p { margin: 0 0 12px; }
-  .eff { color: #8e8e93; font-size: 14px; margin-bottom: 24px; }
-  a { color: #2f6bd8; }
-  nav { margin-bottom: 24px; font-size: 14px; }
+  /* ★2026-10-08 홈페이지와 같은 앱 토큰(site/index.html :root). 앱 법률 화면(LegalDocumentView)처럼
+     조항마다 카드(.padding(16).cardStyle(), 카드 사이 16), 조항 제목 17 semibold, 문단 17 회색, 문단 사이 10. */
+  :root {
+    --card-border: rgba(0,0,0,.06); --hairline: .5px;
+    --card-shadow: 0 1px 4px rgba(0,0,0,.04), 0 4px 24px rgba(0,0,0,.06);
+    --ink: #000000; --muted: #707075; --blue: #3A639C;
+    --font: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { margin: 0 auto; padding: 16px 20px 64px; max-width: 720px; font-family: var(--font); font-size: 17px; line-height: 1.2;
+         color: var(--ink); background: #FFFFFF; word-break: keep-all; overflow-wrap: break-word; -webkit-font-smoothing: antialiased; }
+  p { line-height: calc(1.2em + 3px); text-wrap: pretty; }
+  h1, h2 { text-wrap: balance; }
+  a { color: var(--blue); }
+  a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
+  .back { display: inline-flex; align-items: center; min-height: 44px; font: 500 15px/1.2 var(--font); color: var(--ink); text-decoration: none; }
+  .back:active { opacity: .7; }
+  h1 { margin: 16px 0 8px; font-size: 28px; font-weight: 700; line-height: 1.2; }
+  .eff { margin: 0 0 20px; font-size: 13px; line-height: 1.2; color: var(--muted); }
+  .cards { display: grid; gap: 16px; }
+  .card { background: #FFFFFF; border: var(--hairline) solid var(--card-border); border-radius: 24px;
+          box-shadow: var(--card-shadow); padding: 16px; }
+  .card h2 { margin: 0 0 10px; font-size: 17px; font-weight: 600; line-height: 1.2; }
+  .card p { margin: 0 0 10px; color: var(--muted); }
+  .card p:last-child { margin-bottom: 0; }
 </style>
 </head>
 <body>
-<nav><a href="./">← ARECURA</a></nav>
+<nav aria-label="처음으로"><a class="back" href="./">← Arecura</a></nav>
+<main>
 <h1>개인정보처리방침</h1>
 <p class="eff">시행일 2026년 10월 3일</p>
+<div class="cards">
+<section class="card">
 <h2>1. 처리하는 정보</h2>
 <p>Apple 로그인 시 계정 식별자와 이메일을 처리합니다. 표시 이름은 Apple이 제공한 경우에만 사용합니다.</p>
 <p>사용자가 앱에 기록하거나 권한을 허용해 읽어 온 건강, 생활 기록을 처리합니다. 체중, 체성분, 식단과 음식 메모, 근력 운동, 러닝, 심박수, 활동 에너지, 걸음 수, 이동 거리, 안정 시 에너지, 수면 등 HealthKit 정보, 일정, 컨디션, 사용자가 등록한 장소, 운동 즐겨찾기, 자주 먹는 음식, 사용자가 직접 만든 운동 종목이 여기에 해당합니다.</p>
 <p>사용자가 촬영하거나 선택한 사진, PDF, AI 기능에 입력한 대화와 요청 내용, 추천 코드와 보상 상태, 기능별 요청 횟수, 시각 같은 사용량 기록을 처리합니다.</p>
 <p>밤 소리 측정을 켜면 잠든 동안 마이크로 소리를 듣고, 코 고는 소리나 숨을 몰아쉬는 소리가 들린 순간에만 짧은 소리 조각을 만듭니다. 이 기능은 사용자가 따로 동의하고 켰을 때만 동작하며, 끄면 즉시 중단됩니다.</p>
 <p>Arecura는 광고 식별자를 수집하지 않으며 건강 데이터를 광고, 데이터 판매 또는 보험, 고용 결정에 사용하지 않습니다.</p>
+</section>
+<section class="card">
 <h2>2. 이용 목적</h2>
 <p>정보는 기록 저장과 기기 간 동기화, 개인화된 목표, 차트, 주간 리포트, 운동 및 식단 제안, 계정 보안, 사용량 제한과 서비스 장애 대응에 사용합니다.</p>
 <p>건강, 운동 정보는 사용자가 요청한 기능을 제공하는 범위에서만 사용합니다.</p>
+</section>
+<section class="card">
 <h2>3. 저장 위치</h2>
 <p>기록은 먼저 기기에 저장됩니다. 그중 여러 기기에서 이어 보아야 하는 기록은 로그인한 계정에 연결되어 Arecura의 백엔드(Supabase)에도 저장됩니다. 체중, 식단, 근력 운동, 컨디션, 체성분 수치, 예정 운동, 러닝 계획, 러닝 요약과 지도 경로, 사용자가 등록한 장소(이름, 분류, 위도, 경도, 반경, 주소), 운동 즐겨찾기(어느 동작을 즐겨찾기했는지), 자주 먹는 음식(이름, 기본 분량, 영양값, 분류, 기록한 횟수와 마지막으로 기록한 시각, 즐겨찾기 여부), 사용자가 직접 만든 운동 종목(이름, 부위, 복합 여부), 계획 돌아보기에 고른 답과 적은 말(계획한 운동을 했는지, 못 한 이유, 계획 조정 제안에 한 답 등), 주간 리포트, AI 코치와 주고받은 대화, 그리고 기본 프로필(키, 나이, 목표, 활동량, 목표 체지방 등)이 여기에 해당하며, 대상은 앞으로 늘어날 수 있습니다.</p>
 <p>서버에 저장되는 기록에는 사용자가 직접 적은 텍스트(예: 식단 메모, 운동 이름, 계획 돌아보기에 적은 말, AI 코치와 나눈 대화 내용)가 포함됩니다. 기기 안의 파일 경로는 서버에 저장하지 않습니다.</p>
@@ -39,6 +75,8 @@
 <p>AI 기능을 실행하면 기록의 일부가 요약 형태로 분석 요청에 포함될 수 있습니다(4항).</p>
 <p>밤 소리 조각은 이 아이폰에만 저장됩니다. 서버로 보내지 않으며, 앱에는 그 소리를 서버로 보내는 기능 자체가 없습니다.</p>
 <p>사진은 기기에 저장됩니다. 체성분 검사지 원본은 사용자가 보관을 선택한 경우, 식단 사진은 계정에 연결해 보관하는 경우에 한해 Arecura의 비공개 저장소에 업로드됩니다. 두 저장소 모두 공개되지 않으며 본인만 접근할 수 있습니다. AI 코치 대화에 첨부한 사진은 기기에만 저장되고 서버로 전송되지 않습니다. 대화는 글(텍스트)만 동기화됩니다.</p>
+</section>
+<section class="card">
 <h2>4. 외부로 전송되는 정보</h2>
 <p>AI 기능(코치 대화, 식단 사진 분석, 주간 리포트, 운동, 러닝 계획, 검사지, 시간표 인식)을 실행하면 그 요청에 필요한 내용이 Arecura 서버를 거쳐 OpenAI API로 전송됩니다. AI 기능에는 OpenAI의 AI 모델을 사용합니다. 기능마다 쓰는 모델은 품질과 비용에 따라 바뀔 수 있습니다. 전송되는 내용에는 사용자가 선택한 사진, 대화 내용, 기록 요약, 그리고 요청에 따라 일정 제목이나 메모 같은 사용자가 적은 텍스트가 포함될 수 있습니다. 앱에는 OpenAI 비밀키를 저장하지 않습니다.</p>
 <p>OpenAI API 입력, 출력은 기본적으로 모델 학습에 사용되지 않지만, 부정 사용 모니터링 목적으로 최대 30일 보관될 수 있습니다. 제공자 정책과 법적 의무에 따라 보관 기간은 달라질 수 있습니다.</p>
@@ -47,9 +85,13 @@
 <p>운동 가이드의 이미지나 영상을 열면 GitHub 또는 YouTube에서 콘텐츠를 불러옵니다. 이 과정에서 해당 제공자가 IP 주소와 기기, 요청 메타데이터를 처리할 수 있습니다.</p>
 <p>구독 상태 확인과 해지 처리를 위해 계정 식별자가 RevenueCat으로 전달됩니다. 이름, 이메일, 건강 기록은 전달하지 않습니다.</p>
 <p>밤 소리는 어디로도 전송되지 않습니다. 소리를 듣고 판단하는 일은 모두 이 아이폰 안에서 이뤄지며, 소리 조각도 AI 기능에 보내지 않습니다.</p>
+</section>
+<section class="card">
 <h2>5. 사진과 HealthKit</h2>
 <p>식단, 시간표, 체성분 검사지, 채팅 첨부 사진과 사용자가 선택한 PDF는 해당 기록을 저장하거나 분석을 직접 실행한 경우에만 처리합니다.</p>
 <p>HealthKit에서 읽은 정보는 앱의 건강, 운동 기능을 제공하기 위해 사용합니다. HealthKit 원본 데이터를 그대로 서버에 저장하지는 않으며, 수면 기록처럼 앱 기능에 필요한 값은 요약 형태로 계정에 저장될 수 있습니다. HealthKit 정보는 광고에 사용하거나 제3자에게 판매하지 않습니다.</p>
+</section>
+<section class="card">
 <h2>6. 보유와 삭제</h2>
 <p>기기의 기록은 사용자가 앱에서 삭제하거나 앱을 제거할 때까지 남습니다. 계정에 연결된 기록은 계정을 유지하는 동안 보관합니다.</p>
 <p>밤 소리 조각은 30일이 지나면 자동으로 지웁니다. 사용자가 「영구 보관」으로 표시한 조각만 남으며, 앱에서 직접 지울 수도 있습니다.</p>
@@ -59,20 +101,28 @@
 <p>추천 관계 기록은 추천한 사람 쪽 계정이 삭제되면 함께 삭제되고, 추천받은 사람 쪽 계정이 삭제되면 그 연결만 끊긴 상태로 남습니다.</p>
 <p>AI 기능 실행 시 OpenAI로 이미 전송된 내용은 해당 제공자의 정책에 따라 처리되며 Arecura가 회수할 수 없습니다.</p>
 <p>법적 의무나 제공자 백업 정책상 일부 정보가 제한된 기간 잔존할 수 있습니다.</p>
+</section>
+<section class="card">
 <h2>7. 제공자와 국외 처리</h2>
 <p>서비스 제공을 위해 Apple(로그인, HealthKit, 지도), Supabase(인증, 데이터베이스, 저장소, 서버 기능), OpenAI(AI 분석), 식품의약품안전처 식품영양성분 데이터베이스와 Open Food Facts(식품 정보 조회), RevenueCat(구독 관리), GitHub(운동 가이드 이미지), Google의 YouTube(운동 가이드 영상)를 이용합니다.</p>
 <p>기능 실행 시 필요한 정보가 암호화된 네트워크를 통해 대한민국 외 지역의 제공자 인프라로 전송, 처리될 수 있습니다. 각 제공자는 자체 개인정보 보호정책과 보안 기준에 따라 정보를 처리합니다.</p>
+</section>
+<section class="card">
 <h2>8. 권리와 문의</h2>
 <p>사용자는 앱에서 기록을 조회, 수정, 삭제하고 사진, 위치, 알림, 건강, 캘린더 권한을 iOS 설정에서 철회할 수 있습니다. 권한 철회 후 일부 기능은 동작하지 않을 수 있습니다.</p>
 <p>개인정보 열람, 정정, 삭제 요청과 서비스 문의는 앱의 설정 화면에서 ‘의견 보내기’로 접수할 수 있습니다. 접수한 내용은 서비스 운영자가 직접 확인하고, 답변이 필요한 경우 앱 알림으로 알려드립니다.</p>
-<p>…부서의 명칭과 전화번호 등 연락처</p>
 <p>개인정보 보호책임자는 이승준이며, 연락처는 98eddie@naver.com입니다. 개인정보와 관련한 문의, 불만, 피해 구제는 이 주소 또는 위 ‘의견 보내기’로 접수할 수 있습니다.</p>
 <p>계정과 서버에 저장된 기록 전체의 삭제는 설정 화면의 ‘계정’ 에서 ‘계정 삭제’로 직접 실행할 수 있습니다.</p>
 <p>만 14세 미만 아동을 대상으로 설계한 서비스가 아닙니다.</p>
+</section>
+<section class="card">
 <h2>9. 센서 데이터 기부 (옵트인, 기본 꺼짐)</h2>
 <p>설정에서 명시적으로 켠 경우에만, 운동 중 Apple Watch 의 손목 동작 센서 데이터(가속도, 회전, 중력의 시계열)를 수집해 ‘렙(운동 횟수) 감지 AI 모델’의 학습, 개선 목적으로 사용합니다. 이는 기록 저장을 위한 서버 동기화와는 별개의 선택 항목입니다.</p>
 <p>수집은 Apple Watch 를 착용하고 앱에서 운동을 기록하는 동안 자동으로 이루어지며, 업로드는 Wi-Fi 연결에서만 수행됩니다. 데이터에는 운동 종목, 횟수 라벨과 기기 특성(착용 손목 등)이 함께 저장되나, 이름, 연락처 등 직접 식별정보는 포함되지 않습니다. 여러 사용자의 데이터가 함께 모여 하나의 감지 모델을 개선하는 데 쓰입니다.</p>
 <p>동의는 계정별로 관리되며 언제든 설정에서 철회할 수 있습니다. 철회 시 이후 수집이 중단되고 이미 수집된 원시 데이터는 즉시 삭제됩니다. 다만 이미 학습, 집계에 반영되어 비식별화된 모델 개선 결과는 철회 후에도 유지될 수 있습니다.</p>
 <p>수집한 센서 데이터는 제3자에게 제공하지 않으며, 내부의 렙 감지 정확도 개선에만 사용합니다. 세부 처리(민감정보 해당 여부, 보관기간 등)는 관련 법령 검토를 거쳐 확정합니다.</p>
+</section>
+</div>
+</main>
 </body>
 </html>
