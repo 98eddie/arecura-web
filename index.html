@@ -23,6 +23,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=arecura-20261008">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=arecura-20261008">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>document.documentElement.classList.add('js')</script>
 <style>
   /* 값은 전부 앱 토큰이다(Arecura/DesignTokens.swift, Shared/SharedDesignTokens.swift, Arecura/ProjectTextStyles.swift).
      새 숫자를 만들지 않는다. 웹에만 있는 배치(최대 폭, 구역 위아래 여백, 격자)만 따로 둔다. */
@@ -142,10 +143,10 @@
   .hero h1{font-size:52px;margin:var(--s-sm) 0 var(--s-lg)}
   .hero h1 .line{display:block}
   .lead{font-size:18px;color:var(--muted);max-width:34em}
-  .hero-visual{justify-self:center;width:100%;max-width:440px;display:grid;gap:var(--s-lg)}
+  .hero-visual{justify-self:center;width:100%;max-width:340px}
   @media (max-width:980px){
     .hero .wrap{grid-template-columns:1fr}
-    .hero-visual{justify-self:start;max-width:480px}
+    .hero-visual{justify-self:center;max-width:300px}
   }
   @media (max-width:600px){.hero h1{font-size:34px}}
   @media (max-width:374px){.hero h1{font-size:28px}}
@@ -154,9 +155,9 @@
   section{scroll-margin-top:72px}
   .section{padding-top:clamp(64px,9vw,120px)}
   .section-head{max-width:760px;margin-bottom:clamp(40px,6vw,64px)}
-  .section-head h2,.projects .aside h2,.privacy h2{font-size:34px;margin:var(--s-sm) 0 var(--s-lg)}
-  .section-head p,.projects .aside p,.privacy .intro p{font-size:17px;color:var(--muted)}
-  @media (max-width:600px){.section-head h2,.projects .aside h2,.privacy h2{font-size:28px}}
+  .section-head h2,.privacy h2{font-size:34px;margin:var(--s-sm) 0 var(--s-lg)}
+  .section-head p,.privacy .intro p{font-size:17px;color:var(--muted)}
+  @media (max-width:600px){.section-head h2,.privacy h2{font-size:28px}}
 
   /* ---------- 코칭 흐름 ---------- */
   .steps{display:grid;gap:clamp(56px,8vw,104px)}
@@ -173,17 +174,6 @@
     .step .media{align-items:flex-start}
   }
 
-  /* ---------- 4주 프로젝트 ---------- */
-  .projects{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,6vw,96px);align-items:start}
-  .projects .aside{position:sticky;top:96px}
-  .projects .aside .media{margin-top:32px;display:flex;justify-content:flex-start}
-  .projects .aside .shot{width:100%;max-width:400px}
-  .plist-card{padding:0}
-  .plist-card h3{font-size:18px}
-  .plist-card .rows p{margin-top:var(--s-xs);font-size:15px;color:var(--muted)}
-  .plist-card .card-note{padding:0 var(--s-lg) var(--s-lg)}
-  @media (max-width:900px){.projects{grid-template-columns:1fr}.projects .aside{position:static}}
-
   /* ---------- 기능 ---------- */
   .bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-lg)}
   .tile{display:flex;flex-direction:column;min-width:0;overflow:hidden}
@@ -191,11 +181,11 @@
   .tile.bleed h3{font-size:22px}
   .tile p{font-size:15px;color:var(--muted)}
   /* 카드 안에 얹힌 그림 = AppCorner.block 18, 윤곽만 있고 그림자 없음, 카드 아래로 흘러 나간다 */
-  .tile .media{margin-top:auto;padding-top:var(--s-lg);margin-bottom:calc(-1 * var(--s-lg));display:flex;justify-content:center;align-items:flex-end}
-  .tile .media .inner{width:100%;overflow:hidden;background:var(--control-bg);
+  .tile .media{margin-top:0;padding-top:var(--s-lg);margin-bottom:calc(-1 * var(--s-lg));display:flex;justify-content:center;align-items:flex-end}
+  .tile .media .inner{width:100%;max-width:var(--cta-max);overflow:hidden;background:var(--control-bg);
     border:var(--hairline) solid var(--control-border);border-bottom:0;border-radius:var(--r-block) var(--r-block) 0 0}
   .tile .media .inner img{width:100%;height:100%;object-fit:cover;object-position:top}
-  .media.frame-chat .inner{aspect-ratio:1108/736}
+  .media.frame-chat .inner{aspect-ratio:1/1}
   .media.frame-route .inner{aspect-ratio:1108/1005}
   .span-6{grid-column:span 6}.span-4{grid-column:span 4}
   @media (max-width:980px){.span-6{grid-column:span 12}.span-4{grid-column:span 6}}
@@ -233,6 +223,99 @@
   .closing .page-note{margin-top:var(--s-xxl);font-size:14px}
   @media (max-width:600px){.closing h2{font-size:34px}}
   @media (max-width:374px){.closing h2{font-size:28px}}
+
+
+  /* ---------- 아이폰 틀(웹 전용 그림 틀, 화면은 실제 앱 캡처) ---------- */
+  /* 테두리는 그림의 바깥 여백으로 낸다. 감싸는 상자의 퍼센트 안 여백은 부모 폭을 따라가 자리마다 두께가 달라진다. */
+  .iphone{position:relative;display:flow-root;width:100%;border-radius:17% / 7.9%;background:#1C1C1E;
+    box-shadow:inset 0 0 0 1.5px #3A3A3C,var(--card-shadow)}
+  .iphone img{width:93.2%;margin:3.4%;border-radius:13.7% / 6.3%;background:var(--control-bg)}
+  .iphone::after{content:"";position:absolute;top:2.85%;left:50%;width:29%;height:4.1%;transform:translateX(-50%);
+    border-radius:var(--r-pill);background:#000}
+
+  /* ---------- 하이라이트(넘겨 보기) ---------- */
+  .hl-head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--s-lg);margin-bottom:clamp(24px,4vw,40px)}
+  .hl-head h2{font-size:34px;margin-top:var(--s-sm)}
+  .hl-track{scroll-margin-top:72px;position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:min(84%,880px);gap:var(--s-lg);overflow-x:auto;
+    scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;
+    padding:8px max(var(--pad),calc((100vw - var(--maxw)) / 2 + var(--pad))) 32px;
+    scroll-padding-inline:max(var(--pad),calc((100vw - var(--maxw)) / 2 + var(--pad)));list-style:none}
+  .hl-track::-webkit-scrollbar{display:none}
+  .hl-track:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+  .hl-slide{scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden;
+    padding:clamp(28px,4vw,48px) var(--s-xxl) 0}
+  .hl-slide h3{font-size:28px;max-width:16em}
+  .hl-slide p{margin-top:var(--s-sm);margin-bottom:clamp(24px,4vw,40px);font-size:17px;color:var(--muted);max-width:28em}
+  /* 폰 아래쪽을 슬라이드마다 같은 비율로 가린다 */
+  .hl-slide .iphone{width:min(300px,72%);margin-top:auto;margin-bottom:calc(min(300px,72%) * -0.6)}
+  .hl-controls{display:flex;align-items:center;justify-content:center;gap:var(--s-md)}
+  .hl-dots{display:flex;align-items:center;gap:var(--s-sm);height:44px;padding:0 var(--s-lg);border-radius:var(--r-pill);
+    background:var(--control-bg);border:var(--hairline) solid var(--control-border)}
+  .hl-dot{width:8px;height:8px;padding:0;border:0;border-radius:var(--r-pill);background:var(--muted);cursor:pointer;
+    transition:width .2s ease,background-color .2s ease;position:relative}
+  .hl-dot::before{content:"";position:absolute;inset:-18px -4px}
+  .hl-dot[aria-current="true"]{width:28px;background:var(--blue-accent)}
+  .hl-arrow{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;
+    background:var(--control-bg);border:var(--hairline) solid var(--control-border);color:var(--ink);cursor:pointer}
+  .hl-arrow[aria-disabled="true"]{color:rgba(60,60,67,.18);cursor:default}
+  .hl-arrow svg{width:9px;height:15px}
+  .hl-arrow:active{opacity:var(--pressed)}
+  @media (max-width:600px){.hl-head h2{font-size:28px}.hl-slide{padding-inline:var(--s-xl)}.hl-slide h3{font-size:22px}.hl-track{grid-auto-columns:88%}}
+
+  /* ---------- 크게 보여 주는 구역 ---------- */
+  .showcase-head{text-align:center;max-width:880px;margin:0 auto}
+  .showcase .display{font-size:52px;margin:var(--s-sm) auto var(--s-xxl)}
+  .showcase .display .line{display:block}
+  .showcase .display-lead{font-size:22px;line-height:calc(1.2em + 6px);color:var(--muted);max-width:30em;margin:0 auto}
+  .showcase .display-lead .ink{color:var(--ink)}
+  .showcase-visual{display:flex;justify-content:center;margin:clamp(40px,6vw,72px) 0}
+  .showcase-visual .iphone{width:min(340px,78%)}
+  @media (max-width:600px){.showcase .display{font-size:34px}.showcase .display-lead{font-size:18px}}
+  @media (max-width:374px){.showcase .display{font-size:28px}}
+
+  /* ---------- 4주 프로젝트 카드 ---------- */
+  /* 일곱 장이라 줄마다 가운데로 모은다(4장, 3장) */
+  .pgrid{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--s-lg);list-style:none}
+  .pgrid .card{display:flex;flex-direction:column;flex:0 1 calc((100% - 3 * var(--s-lg)) / 4)}
+  .p-icon{display:inline-flex;width:24px;height:24px;margin-bottom:var(--s-md);color:var(--blue-accent)}
+  .p-icon svg{width:24px;height:24px}
+  .pgrid h3{font-size:18px}
+  .pgrid p{margin-top:var(--s-xs);font-size:15px;color:var(--muted)}
+  /* 1100 이하: 식단 둘, 운동 둘, 러닝 둘과 수면(2, 2, 3). 860 이하: 둘씩, 마지막 수면은 한 줄 */
+  @media (min-width:861px) and (max-width:1100px){.pgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}.pgrid .card{grid-column:span 3}.pgrid .card:nth-child(n+5){grid-column:span 2}}
+  @media (min-width:601px) and (max-width:860px){.pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.pgrid .card:last-child{grid-column:1 / -1}}
+  @media (max-width:600px){.pgrid .card{flex-basis:100%}}
+  .showcase .page-note{text-align:center}
+
+  /* ---------- 자세히 보기 팝업 = 앱 시트(제목 가운데, 오른쪽 위 닫기 하나) ---------- */
+  button.link-row{background:none;border:0;cursor:pointer;text-align:left}
+  .tile p{margin-bottom:var(--s-lg)}
+  .tile .link-row{margin-top:auto;max-width:none}
+  /* 카드 맨 아래 링크 줄 = CardLinkGroup(0.5pt 구분선, 12 띄우고 줄) */
+  .tile:not(.bleed) .link-row{border-top:var(--hairline) solid var(--group-divider);padding-top:calc(var(--s-md) + var(--s-xs))}
+  dialog.sheet{border:0;padding:0;margin:auto;width:min(640px,calc(100% - 32px));max-height:min(88vh,920px);max-height:min(88dvh,920px);
+    background:var(--control-bg);color:var(--ink);border-radius:var(--r-card);box-shadow:var(--card-shadow);overflow:hidden}
+  dialog.sheet::backdrop{background:rgba(0,0,0,.32)}
+  html:has(dialog.sheet[open]){overflow:hidden}
+  /* 스크립트가 없으면 눌러도 아무 일 없는 버튼은 숨긴다 */
+  html:not(.js) .hl-controls,html:not(.js) [data-open]{display:none}
+  .sheet-head{position:relative;display:flex;align-items:center;justify-content:center;height:56px}
+  .sheet-head h2{font-size:17px;font-weight:600}
+  /* 앱 시트 오른쪽 위 「닫기」(iOS 26 툴바 버튼: 밝은 알약 면과 가는 윤곽) */
+  .sheet-close{position:absolute;right:var(--s-lg);top:6px;height:var(--hit);padding:0 var(--s-lg);background:var(--card-bg);
+    border:var(--hairline) solid var(--control-border);border-radius:var(--r-pill);font:400 17px/1.2 var(--font);color:var(--ink);cursor:pointer}
+  .sheet-close:active{opacity:var(--pressed)}
+  .sheet-body{overflow-y:auto;max-height:calc(min(88vh,920px) - 56px);max-height:calc(min(88dvh,920px) - 56px);padding:var(--s-xl) var(--s-xl) var(--s-xxl)}
+  .sheet-body:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+  .sheet-body .lead-in{font-size:17px;color:var(--muted)}
+  .sheet-body .iphone{width:min(260px,70%);margin:var(--s-xl) auto 0}
+  .sheet-body .card{margin-top:var(--s-xl);padding:0}
+  .sheet-body .rows>li{font-size:15px;color:var(--ink)}
+  .sheet-body .not{margin-top:var(--s-lg);font-size:13px;line-height:var(--lh-para);color:var(--muted)}
+  @media (max-width:600px){
+    dialog.sheet{width:100%;max-width:none;margin:auto 0 0;border-radius:var(--r-card) var(--r-card) 0 0;max-height:92vh;max-height:92dvh}
+    .sheet-body{max-height:calc(92vh - 56px);max-height:calc(92dvh - 56px)}
+  }
 
   /* ---------- 바닥 = 문서 링크(13 회색, 간격 20, 구분 글자 없음) ---------- */
   footer{border-top:var(--hairline) solid var(--group-divider);padding:40px 0 56px;font-size:13px;color:var(--muted)}
@@ -277,16 +360,76 @@
       <p class="page-note">iPhone 전용 앱이에요.<br>진단이나 치료는 하지 않고, 기록에서 보이는 것과 계획을 말해요.<br>페이지 속 앱 화면은 예시 기록을 넣어 띄운 화면이에요.</p>
     </div>
     <div class="hero-visual">
-      <div class="shot">
-        <img src="img/next-targets.webp" srcset="img/next-targets-sm.webp 554w, img/next-targets.webp 1109w" sizes="(max-width: 600px) calc(100vw - 32px), 480px"
-             width="1109" height="1069" fetchpriority="high"
-             alt="멋진 몸 만들기의 다음 목표 화면. 바벨 벤치프레스 62.5kg 6~10회 3세트, 바벨 로우 52.5kg 6~10회 4세트처럼 동작마다 다음 무게와 반복 범위, 한 단계 올린 까닭이 적힌 화면.">
+      <div class="iphone">
+        <img src="img/m-targets.webp" srcset="img/m-targets-sm.webp 600w, img/m-targets.webp 900w" sizes="(max-width: 980px) 300px, 340px"
+             width="900" height="1957" fetchpriority="high"
+             alt="멋진 몸 만들기의 이번 주 운동 화면. 동작마다 다음 무게와 반복 범위, 세트 수, 한 단계 올린 까닭이 적힌 화면.">
       </div>
-      <div class="shot">
-        <img src="img/sleep-top.webp" srcset="img/sleep-top-sm.webp 554w, img/sleep-top.webp 1108w" sizes="(max-width: 600px) calc(100vw - 32px), 480px"
-             width="1108" height="303" decoding="async"
-             alt="수면 회복 프로젝트의 현재 계획. 이번 행동 「잠들기 전 준비 행동 하나 정하기」.">
+    </div>
+  </div>
+</section>
+
+<!-- 하이라이트 -->
+<section class="section" id="highlights" aria-labelledby="hl-title">
+  <div class="wrap hl-head">
+    <div>
+      <span class="section-title">하이라이트</span>
+      <h2 id="hl-title">한눈에 보는 Arecura</h2>
+    </div>
+  </div>
+  <div class="hl">
+    <ul class="hl-track" role="list" tabindex="0" aria-label="하이라이트 화면, 좌우로 넘겨 보기">
+      <li class="card hl-slide" id="hl-1">
+        <h3>사진 한 장으로 끼니 기록</h3>
+        <p>음식과 양, 열량을 어림하고, 저장하기 전에 항목마다 고칠 수 있어요.</p>
+        <div class="iphone">
+          <img src="img/m-meal.webp" srcset="img/m-meal-sm.webp 600w, img/m-meal.webp 900w" sizes="(max-width: 600px) 50vw, 280px"
+               width="900" height="1957" loading="lazy" decoding="async" alt="식사 분석 결과 화면. 닭가슴살 샐러드와 현미밥, 합계 620kcal와 탄수화물, 단백질, 지방이 적힌 화면.">
+        </div>
+      </li>
+      <li class="card hl-slide" id="hl-2">
+        <h3>바꾸기 전에 묻는 AI 코치</h3>
+        <p>대화로 상의하고, 계획은 확인 카드를 눌러야 바뀌어요.</p>
+        <div class="iphone">
+          <img src="img/m-chat.webp" srcset="img/m-chat-sm.webp 600w, img/m-chat.webp 900w" sizes="(max-width: 600px) 50vw, 280px"
+               width="900" height="1957" loading="lazy" decoding="async" alt="AI 코치 대화 화면. 헬스장에 1.25kg 원판이 없어 벤치프레스 62.5kg을 못 맞춘다는 말에, 다음 목표를 60kg 10~12회 3세트로 바꾸자는 확인 카드가 붙은 화면.">
+        </div>
+      </li>
+      <li class="card hl-slide" id="hl-3">
+        <h3>점검은 짧은 질문으로</h3>
+        <p>점검일에 골라서 답하면, 최근 7일 기록과 함께 보고 바꿔 볼 한 가지가 있는지 알려 줘요.</p>
+        <div class="iphone">
+          <img src="img/m-checkin.webp" srcset="img/m-checkin-sm.webp 600w, img/m-checkin.webp 900w" sizes="(max-width: 600px) 50vw, 280px"
+               width="900" height="1957" loading="lazy" decoding="async" alt="멋진 몸 만들기 점검 화면. 「요즘 몸이 달라진 게 느껴지거나 보이세요?」 질문과 네 가지 답, 「점검 저장」 버튼, 단백질, 부위별 세트, 잠, 체중을 적은 최근 7일 기록 카드.">
+        </div>
+      </li>
+      <li class="card hl-slide" id="hl-4">
+        <h3>이번 주에 해 볼 수면 행동 하나</h3>
+        <p>왜 하는지와 오늘 밤 해 볼 수 있는 예시를 함께 보여 줘요.</p>
+        <div class="iphone">
+          <img src="img/m-sleep.webp" srcset="img/m-sleep-sm.webp 600w, img/m-sleep.webp 900w" sizes="(max-width: 600px) 50vw, 280px"
+               width="900" height="1957" loading="lazy" decoding="async" alt="수면 회복 프로젝트 화면. 이번 행동 「잘 수 있는 시간을 15분 먼저 확보하기」와 왜 하는지, 예시가 적힌 화면.">
+        </div>
+      </li>
+      <li class="card hl-slide" id="hl-5">
+        <h3>건강 앱 러닝을 지도와 심박으로</h3>
+        <p>경로를 심박 구간 색으로 칠하고, 거리와 시간, 페이스를 보여 줘요.</p>
+        <div class="iphone">
+          <img src="img/m-run.webp" srcset="img/m-run-sm.webp 600w, img/m-run.webp 900w" sizes="(max-width: 600px) 50vw, 280px"
+               width="900" height="1957" loading="lazy" decoding="async" alt="러닝 기록 화면. 여의도공원 산책길을 한 바퀴 도는 경로를 심박 구간 색으로 칠한 지도와 거리 2.35km, 시간 17분 24초. 예시 기록이에요.">
+        </div>
+      </li>
+    </ul>
+    <div class="hl-controls">
+      <button class="hl-arrow" type="button" data-step="-1" aria-label="이전 하이라이트"><svg viewBox="0 0 9 15" aria-hidden="true"><path d="M7.5 1.5l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="hl-dots">
+        <button class="hl-dot" type="button" data-go="0" aria-label="사진 한 장으로 끼니 기록" aria-current="true"></button>
+        <button class="hl-dot" type="button" data-go="1" aria-label="바꾸기 전에 묻는 AI 코치"></button>
+        <button class="hl-dot" type="button" data-go="2" aria-label="점검은 짧은 질문으로"></button>
+        <button class="hl-dot" type="button" data-go="3" aria-label="이번 주에 해 볼 수면 행동 하나"></button>
+        <button class="hl-dot" type="button" data-go="4" aria-label="건강 앱 러닝을 지도와 심박으로"></button>
       </div>
+      <button class="hl-arrow" type="button" data-step="1" aria-label="다음 하이라이트"><svg viewBox="0 0 9 15" aria-hidden="true"><path d="M1.5 1.5l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
   </div>
 </section>
@@ -324,7 +467,7 @@
         <div class="step-text">
           <span class="step-num"><span class="num">2</span>이번 주 할 일 정하기</span>
           <h3>막연한 조언 대신, 숫자와 행동으로</h3>
-          <p>근력 운동이라면 동작마다 다음 무게와 반복 범위, 세트 수를 알려 줘요. 첫 세트는 범위 위쪽 끝까지, 나머지 세트는 아래쪽 끝 이상 해낸 날이 이어지면 다음 목표를 한 단계 올리고, 왜 올리는지도 같이 적어요.</p>
+          <p>근력 운동이라면 동작마다 다음 무게와 반복 범위, 세트 수를 알려 줘요. 첫 세트는 범위 위쪽 끝까지, 나머지 세트는 아래쪽 끝 이상 해낸 날이 두 번 이어지면(범위 위쪽 끝이 6회 이하인 동작은 최근 세 번 중 두 번) 다음 목표를 한 단계 올려요. 왜 올리는지도 같이 적어요.</p>
           <ul class="dots" role="list">
             <li>수면 회복이라면 이번 주에 해 볼 행동 하나와 그 이유, 예시를 보여 줘요.</li>
             <li>식단이라면 하루 열량과 단백질 목표, 끼니별로 먹을 조합을 제안해요.</li>
@@ -334,7 +477,7 @@
           <div class="shot">
             <img src="img/strength-rule.webp" srcset="img/strength-rule-sm.webp 554w, img/strength-rule.webp 1109w" sizes="(max-width: 432px) calc(100vw - 32px), 400px"
                  width="1109" height="1524" loading="lazy" decoding="async"
-                 alt="세트별 반복 횟수 막대(12회, 10회, 9회)와 무게를 올리는 기준이 적힌 화면. 첫 세트는 범위 위쪽 끝까지, 나머지 세트는 아래쪽 끝 이상, 채운 날이 이어지면 한 단계 올린다는 기준.">
+                 alt="반복 범위 8~12회에서 세트별 반복 횟수 예시 막대(12회, 10회, 9회)와 무게를 올리는 기준이 적힌 화면. 첫 세트는 범위 위쪽 끝까지, 나머지 세트는 아래쪽 끝 이상 해낸 날이 두 번 이어지면 한 단계 올린다는 기준.">
           </div>
         </div>
       </article>
@@ -367,7 +510,7 @@
         <div class="step-text">
           <span class="step-num"><span class="num">4</span>점검하고 다시 맞추기</span>
           <h3>점검하고, 바꿀 건 직접 정해요</h3>
-          <p>점검일에 며칠 해 봤는지, 해 보니 어땠는지 같은 짧은 질문에 골라서 답하면, 앱이 기록과 함께 보고 바꿔 볼 한 가지를 제안해요. 계획을 바꾸자는 제안은 직접 수락해야 바뀌어요.</p>
+          <p>점검일에는 며칠 해 봤는지, 해 보니 어땠는지 같은 짧은 질문에 골라서 답해요. 앱이 그 답을 기록과 함께 보고, 바꿔 볼 한 가지가 있으면 제안해요. 계획을 바꾸자는 제안은 직접 수락해야 바뀌어요.</p>
           <ul class="dots" role="list">
             <li>멋진 몸 만들기를 뺀 프로젝트에서는 통증이나 불편, 졸림처럼 바로 말해 두고 싶은 것을 점검일을 기다리지 않고 알릴 수 있어요.</li>
             <li>점검일이 되면 알림을 보내 드려요.</li>
@@ -391,31 +534,30 @@
 </section>
 
 <!-- 4주 프로젝트 -->
-<section class="section" id="projects" aria-labelledby="projects-title">
-  <div class="wrap projects">
-    <div class="aside">
-      <span class="section-title">4주 코칭 프로젝트</span>
-      <h2 id="projects-title">목표 하나를 골라 4주 동안</h2>
-      <p>코칭 탭에서 지금 바꾸고 싶은 것 하나를 고르면, 시작할 때 상태를 기록해 두고 정해진 점검일마다 기록을 보며 계획을 조정해요. 점검은 보통 일주일 간격이고, 계획을 바꾼 뒤에는 며칠 뒤에 다시 봐요. 마친 프로젝트는 모두 지난 기록에서 다시 볼 수 있어요.</p>
-      <div class="media">
-        <div class="shot">
-          <img src="img/project-entry.webp" srcset="img/project-entry-sm.webp 554w, img/project-entry.webp 1108w" sizes="(max-width: 432px) calc(100vw - 32px), 400px" width="1108" height="672" loading="lazy" decoding="async"
-               alt="코칭 탭의 멋진 몸 만들기 입구 카드. 진행 중, 체중 주 0.25kg씩 늘리기, 오늘이 점검일이라는 안내와 「점검하기」 버튼.">
-        </div>
+<section class="section showcase" id="projects" aria-labelledby="projects-title">
+  <div class="wrap">
+    <div class="showcase-head">
+    <span class="section-title">4주 코칭 프로젝트</span>
+    <h2 class="display" id="projects-title"><span class="line">목표 하나를 골라</span> <span class="line">4주 동안 함께 맞춰요.</span></h2>
+    <p class="display-lead">코칭 탭에서 지금 바꾸고 싶은 것 하나를 고르면, <span class="ink">시작할 때 상태를 기록해 두고 정해진 점검일마다 기록을 보며 계획을 조정해요.</span> 점검은 보통 일주일 간격이고, 계획을 바꾸면 며칠 뒤에 다시 봐요. <span class="ink">마친 프로젝트는 모두 지난 기록에서 다시 볼 수 있어요.</span></p>
+    </div>
+    <div class="showcase-visual">
+      <div class="iphone">
+        <img src="img/m-physique.webp" srcset="img/m-physique-sm.webp 600w, img/m-physique.webp 900w" sizes="(max-width: 600px) 66vw, 290px"
+             width="900" height="1957" loading="lazy" decoding="async"
+             alt="멋진 몸 만들기 프로젝트 화면. 맨 위에 지금 먹는 목표가 있고, 그 아래로 이번 주 운동 카드가 이어지는 화면.">
       </div>
     </div>
-    <div class="card plist-card">
-      <ul class="rows" role="list">
-        <li><span class="badge">식단</span><h3>체지방 감량</h3><p>키, 몸무게, 활동량 같은 내 정보로 하루 열량 목표를 정하고, 배고픔과 식단 기록, 체중 흐름을 보며 식사 구성과 열량을 조정해요.</p></li>
-        <li><span class="badge">식단</span><h3>근육 지키며 체지방 줄이기</h3><p>하루 열량은 조금만 줄이고 단백질을 넉넉히 잡아요. 체중 흐름과 운동 수행, 식사와 회복을 함께 점검해요. 내 정보의 체중 변화 속도에서 이 방식을 고르면 체지방 감량 대신 열려요.</p></li>
-        <li><span class="badge">운동</span><h3>멋진 몸 만들기</h3><p>단백질, 부위별 세트, 잠, 체중 추세를 한 주 단위로 보고, 동작마다 다음 무게와 반복 범위를 짚어 줘요.</p></li>
-        <li><span class="badge">운동</span><h3>운동 퍼포먼스 올리기</h3><p>최근 기록에서 고른 종목의 무게와 반복을 4주 동안 올려 가요. 통증을 알리면 그 종목의 무게 올리기 제안은 취소돼요. 끝나는 날도 바꿀 수 있어요.</p></li>
-        <li><span class="badge">러닝</span><h3>러닝 퍼포먼스 올리기</h3><p>한 번에 더 길게, 주간 총거리 늘리기, 같은 거리 더 빠르게 중 하나를 고르면, 시작 전 30일 동안 Apple 건강 앱에 남은 러닝과 비교하며 4주 동안 점검해요. 끝나는 날도 바꿀 수 있어요.</p></li>
-        <li><span class="badge">러닝</span><h3>러닝 습관 만들기</h3><p>걷기를 섞은 1단계부터 시작해, 쉬지 않고 달리는 시간을 단계별로 늘려 가요. 잠시 쉬었다가 다시 이어 갈 수도 있고, 끝나는 날도 바꿀 수 있어요.</p></li>
-        <li><span class="badge">수면</span><h3>수면 회복</h3><p>잠들기 어려움, 불규칙한 시간처럼 바꾸고 싶은 것을 고르면, 이번에 해 볼 행동 하나와 그 이유, 예시를 알려 줘요.</p></li>
-      </ul>
-      <p class="card-note">4주는 습관과 기록을 잡는 기간이에요. 그 안에 결과를 약속하지 않고, 변화가 바로 보이지 않아도 방향이 틀렸다는 뜻은 아니에요.</p>
-    </div>
+    <ul class="pgrid" role="list">
+      <li class="card"><span class="p-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg></span><span class="badge">식단</span><h3>체지방 감량</h3><p>키, 몸무게, 활동량 같은 내 정보로 하루 열량 목표를 정하고, 점검에서 답한 배고픔과 식단 기록을 보며 식사 구성과 열량을 조정해요.</p></li>
+      <li class="card"><span class="p-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 9.5h8M14 7.5l2 2-2 2M16 14.5H8M10 12.5l-2 2 2 2"/></svg></span><span class="badge">식단</span><h3>근육 지키며 체지방 줄이기</h3><p>하루 열량은 조금만 줄이고 단백질을 넉넉히 잡아요. 체중 흐름과 운동 수행, 식사와 회복을 함께 점검해요. 내 정보의 체중 변화 속도에서 「근육 지키며 체지방 줄이기」를 고르면, 체지방 감량 대신 이 프로젝트를 시작할 수 있어요.</p></li>
+      <li class="card"><span class="p-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5v4M5.5 4v6M21 5v4M18.5 4v6M5.5 7h13"/><circle cx="12" cy="10.4" r="1.8" fill="currentColor" stroke="none"/><path d="M8.5 7l2.6 4.6M15.5 7l-2.6 4.6M12 12.3v4.4M12 16.7l-3 4M12 16.7l3 4"/></svg></span><span class="badge">운동</span><h3>멋진 몸 만들기</h3><p>단백질, 부위별 세트, 잠, 체중 추세를 한 주 단위로 보고, 동작마다 다음 무게와 반복 범위를 짚어 줘요.</p></li>
+      <li class="card"><span class="p-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="8.5" width="2.4" height="7" rx="1"/><rect x="5.2" y="5.5" width="3.2" height="13" rx="1.2"/><rect x="8.4" y="11" width="7.2" height="2"/><rect x="15.6" y="5.5" width="3.2" height="13" rx="1.2"/><rect x="19.6" y="8.5" width="2.4" height="7" rx="1"/></svg></span><span class="badge">운동</span><h3>운동 퍼포먼스 올리기</h3><p>최근 기록에서 고른 종목의 무게와 반복을 4주 동안 올려 가요. 통증을 알리면 그 종목의 무게 올리기 제안은 취소돼요. 끝나는 날도 바꿀 수 있어요.</p></li>
+      <li class="card"><span class="p-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="14.6" cy="4.2" r="2" fill="currentColor" stroke="none"/><path d="M7.5 21l3.2-5.2 3 2.2.3 3M10.7 15.8l1.6-5.6 3.2 2.6 3.3.4M12.3 10.2l-3.4.4-2.1 3"/></svg></span><span class="badge">러닝</span><h3>러닝 퍼포먼스 올리기</h3><p>한 번에 더 길게, 주간 총거리 늘리기, 같은 거리 더 빠르게 중 하나를 고르면, 시작 전 30일 동안 Apple 건강 앱에 남은 러닝과 비교하며 4주 동안 점검해요. 끝나는 날도 바꿀 수 있어요.</p></li>
+      <li class="card"><span class="p-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="14.6" cy="4.2" r="2" fill="currentColor" stroke="none"/><path d="M7.5 21l3.2-5.2 3 2.2.3 3M10.7 15.8l1.6-5.6 3.2 2.6 3.3.4M12.3 10.2l-3.4.4-2.1 3"/></svg></span><span class="badge">러닝</span><h3>러닝 습관 만들기</h3><p>요즘 쉬지 않고 달릴 수 있는 시간과 시작 전 30일 러닝 기록으로 시작 단계를 정해요(처음이면 걷기를 섞은 1단계부터). 그 뒤 쉬지 않고 달리는 시간을 단계별로 늘려 가요. 잠시 쉬었다가 다시 이어 갈 수도 있고, 끝나는 날도 바꿀 수 있어요.</p></li>
+      <li class="card"><span class="p-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 14.7A7.2 7.2 0 0 1 9.3 6a7.2 7.2 0 1 0 8.7 8.7z"/><path d="M14.5 3h3.2l-3.2 3.4h3.2M19 8.4h2.2L19 10.8h2.2"/></svg></span><span class="badge">수면</span><h3>수면 회복</h3><p>잠들기 어려움, 불규칙한 시간처럼 바꾸고 싶은 것을 고르면, 이번에 해 볼 행동 하나와 그 이유, 예시를 알려 줘요.</p></li>
+    </ul>
+    <p class="page-note">4주는 습관과 기록을 잡는 기간이에요. 이 기간 안의 결과는 약속하지 않아요. 변화가 바로 보이지 않는다고 해서 방향이 틀렸다는 뜻은 아니에요.</p>
   </div>
 </section>
 
@@ -432,12 +574,13 @@
       <article class="card tile bleed span-6">
         <span class="card-label">AI 코치</span>
         <h3>대화로 상의하고, 바꾸기 전엔 확인해요</h3>
-        <p>지난 운동, 식단, 잠 기록을 찾아보며 대화해요. 목표나 계획을 바꾸자는 제안은 확인 카드로 오고, 누르기 전에는 바뀌지 않아요. 대화로 답한 점검 내용은 바로 기록돼요. 답이 화면에 나가기 전에는 원인을 단정하는 표현을 걸러 내도록 한 번 더 점검해요.</p>
+        <p>지난 운동, 식단, 잠 기록을 찾아보며 대화해요. 목표나 계획을 바꾸자는 제안은 확인 카드로 오고, 누르기 전에는 바뀌지 않아요.</p>
+        <button class="link-row" type="button" data-open="d-ai" aria-haspopup="dialog" aria-label="AI 코치 자세히 보기"><span>자세히 보기</span><svg class="chev" viewBox="0 0 7 12" aria-hidden="true"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="media frame-chat">
           <div class="inner">
-            <img src="img/chat-card.webp" srcset="img/chat-card-sm.webp 554w, img/chat-card.webp 1108w" sizes="(max-width: 980px) calc(100vw - 64px), 530px"
-                 width="1108" height="736" loading="lazy" decoding="async"
-                 alt="AI 코치의 다음 목표 바꾸기 확인 카드. 바벨 벤치프레스를 지금 62.5kg 6~10회 3세트에서 60kg 10~12회 3세트로 바꾸자는 내용과 헬스장에 62.5kg 원판이 없다는 까닭, 「이대로 바꾸기」와 「그대로 두기」 버튼.">
+            <img src="img/chat-tile.webp" srcset="img/chat-tile-sm.webp 603w, img/chat-tile.webp 1206w" sizes="(max-width: 600px) calc(100vw - 64px), 370px"
+                 width="1206" height="1206" loading="lazy" decoding="async"
+                 alt="AI 코치 대화 화면. 헬스장에 1.25kg 원판이 없어 벤치프레스 62.5kg을 못 맞춘다는 말에 코치가 답하고, 다음 목표를 60kg 10~12회 3세트로 바꾸자는 확인 카드와 「이대로 바꾸기」, 「그대로 두기」 버튼이 붙은 화면.">
           </div>
         </div>
       </article>
@@ -446,9 +589,10 @@
         <span class="card-label">다음 주 루틴</span>
         <h3>기록과 설문으로 짜는 루틴</h3>
         <p>운동 수준과 주 횟수, 최근 4주 기록으로 다음 주 루틴을 짜고, 왜 그렇게 짰는지 함께 보여 줘요. 플랜에는 직접 눌러서 넣어요.</p>
+        <button class="link-row" type="button" data-open="d-routine" aria-haspopup="dialog" aria-label="다음 주 루틴 자세히 보기"><span>자세히 보기</span><svg class="chev" viewBox="0 0 7 12" aria-hidden="true"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="media frame-chat">
           <div class="inner">
-            <img src="img/routine.webp" srcset="img/routine-sm.webp 542w, img/routine.webp 1085w" sizes="(max-width: 980px) calc(100vw - 64px), 530px" width="1085" height="1421" loading="lazy" decoding="async"
+            <img src="img/routine.webp" srcset="img/routine-sm.webp 542w, img/routine.webp 1085w" sizes="(max-width: 600px) calc(100vw - 64px), 370px" width="1085" height="1421" loading="lazy" decoding="async"
                  alt="루틴 제안의 「이렇게 짰어요」 카드. 세트 수, 3분할(푸시, 풀, 레그)로 한 주에 3번 나눈 까닭, 최근 4주 기록에서 넣은 동작이 적힌 화면.">
           </div>
         </div>
@@ -458,9 +602,10 @@
         <span class="card-label">러닝</span>
         <h3>건강 앱의 러닝을 그대로 이어서</h3>
         <p>Apple 건강 앱의 러닝과 걷기를 불러와 경로, 심박 구간, 거리와 페이스를 보여 줘요. 앱에서 직접 GPS로 기록할 수도 있어요.</p>
+        <button class="link-row" type="button" data-open="d-run" aria-haspopup="dialog" aria-label="러닝 자세히 보기"><span>자세히 보기</span><svg class="chev" viewBox="0 0 7 12" aria-hidden="true"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="media frame-route">
           <div class="inner">
-            <img src="img/run-route.webp" srcset="img/run-route-sm.webp 554w, img/run-route.webp 1108w" sizes="(max-width: 980px) calc(100vw - 64px), 530px" width="1108" height="1005" loading="lazy" decoding="async"
+            <img src="img/run-route.webp" srcset="img/run-route-sm.webp 554w, img/run-route.webp 1108w" sizes="(max-width: 600px) calc(100vw - 64px), 370px" width="1108" height="1005" loading="lazy" decoding="async"
                  alt="러닝 기록의 경로 카드. 여의도공원 산책길을 한 바퀴 도는 경로를 심박 구간 색으로 칠한 지도와 존 1~5, 출발, 도착 범례. 예시 기록이라 실제 사람의 기록이 아니에요.">
           </div>
         </div>
@@ -469,12 +614,13 @@
       <article class="card tile bleed span-6">
         <span class="card-label">수면</span>
         <h3>이번에 해 볼 수면 행동 하나, 이유와 함께</h3>
-        <p>수면 기록과 잠드는 시각의 리듬을 보고, 수면 회복 프로젝트에서는 이번에 해 볼 행동 하나와 왜 하는지, 해 볼 수 있는 예시를 알려 줘요.</p>
+        <p>수면 기록과 잠드는 시각의 리듬을 함께 봐요. 수면 회복 프로젝트에서는 이번에 해 볼 행동 하나를 이유, 예시와 함께 알려 줘요.</p>
+        <button class="link-row" type="button" data-open="d-sleep" aria-haspopup="dialog" aria-label="수면 자세히 보기"><span>자세히 보기</span><svg class="chev" viewBox="0 0 7 12" aria-hidden="true"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="media frame-route">
           <div class="inner">
-            <img src="img/sleep-action.webp" srcset="img/sleep-action-sm.webp 554w, img/sleep-action.webp 1108w" sizes="(max-width: 980px) calc(100vw - 64px), 530px"
-                 width="1108" height="1474" loading="lazy" decoding="async"
-                 alt="수면 회복 프로젝트의 현재 계획. 이번 행동 「잠들기 전 준비 행동 하나 정하기」와 「왜 하나요」 설명, 「이렇게 해 볼 수 있어요」 예시 다섯 가지가 적힌 화면.">
+            <img src="img/sleep-action.webp" srcset="img/sleep-action-sm.webp 554w, img/sleep-action.webp 1108w" sizes="(max-width: 600px) calc(100vw - 64px), 370px"
+                 width="1108" height="1351" loading="lazy" decoding="async"
+                 alt="수면 회복 프로젝트의 현재 계획. 이번 행동 「잘 수 있는 시간을 15분 먼저 확보하기」와 「왜 하나요」 설명, 「이렇게 해 볼 수 있어요」 예시가 적힌 화면.">
           </div>
         </div>
       </article>
@@ -483,31 +629,37 @@
         <span class="card-label">근력 기록</span>
         <h3>세트마다 무게와 횟수를</h3>
         <p>동작을 검색해 세트마다 무게와 횟수를 남기고, 휴식 타이머는 잠금 화면에서도 보여요. 부위마다 기록으로 어림한 권장 간격이 지나면 알려 드려요.</p>
+        <button class="link-row" type="button" data-open="d-strength" aria-haspopup="dialog" aria-label="근력 기록 자세히 보기"><span>자세히 보기</span><svg class="chev" viewBox="0 0 7 12" aria-hidden="true"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </article>
       <article class="card tile span-4">
         <span class="card-label">기상 알람</span>
         <h3>요일을 골라 깨워 주는 알람</h3>
-        <p>울릴 요일을 고르고, 다시 알림도 쓸 수 있어요. 알람 권한을 허용하면 무음 모드에서도 울려요.</p>
+        <p>울릴 요일과 다섯 가지 소리 중 하나를 골라요. 알람 권한을 허용하면 무음 모드에서도 울려요.</p>
+        <button class="link-row" type="button" data-open="d-alarm" aria-haspopup="dialog" aria-label="기상 알람 자세히 보기"><span>자세히 보기</span><svg class="chev" viewBox="0 0 7 12" aria-hidden="true"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </article>
       <article class="card tile span-4">
         <span class="card-label">AI 리포트</span>
         <h3>2주마다 정리하고 다음 2주 계획까지</h3>
         <p>2주 동안의 기록을 정리한 리포트와 함께 다음 2주의 운동, 식단 계획을 받아요.</p>
+        <button class="link-row" type="button" data-open="d-report" aria-haspopup="dialog" aria-label="AI 리포트 자세히 보기"><span>자세히 보기</span><svg class="chev" viewBox="0 0 7 12" aria-hidden="true"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </article>
       <article class="card tile span-4">
         <span class="card-label">카페인</span>
         <h3>마신 양과 그만 마실 시각</h3>
-        <p>카페인 계산기로 마신 카페인이 잠들 시각에 몸에 얼마나 남을지 어림하고, 정한 시각에 그만 마시자는 알림을 받을 수 있어요.</p>
+        <p>카페인 계산기로 마신 카페인이 누울 시각에 몸에 얼마나 남을지 어림하고, 정한 시각에 그만 마시자는 알림을 받을 수 있어요.</p>
+        <button class="link-row" type="button" data-open="d-caffeine" aria-haspopup="dialog" aria-label="카페인 자세히 보기"><span>자세히 보기</span><svg class="chev" viewBox="0 0 7 12" aria-hidden="true"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </article>
       <article class="card tile span-4">
         <span class="card-label">Apple Watch</span>
         <h3>손목에서 세트와 휴식을</h3>
-        <p>운동 중에 세트 완료와 편집, 휴식 타이머를 손목에서 다뤄요. 오늘 요약도 바로 볼 수 있어요.</p>
+        <p>운동 중에 지금 할 세트를 보고 「세트 완료」로 넘기고, 휴식 남은 시간을 손목에서 봐요. 오늘 요약도 바로 볼 수 있어요.</p>
+        <button class="link-row" type="button" data-open="d-watch" aria-haspopup="dialog" aria-label="Apple Watch 자세히 보기"><span>자세히 보기</span><svg class="chev" viewBox="0 0 7 12" aria-hidden="true"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </article>
       <article class="card tile span-4">
         <span class="card-label">위젯</span>
         <h3>홈과 잠금 화면에서 바로</h3>
         <p>위젯과 제어 센터로 식단 기록과 AI 코치를 바로 열고, 러닝과 휴식 시간은 잠금 화면의 실시간 현황으로 보여요.</p>
+        <button class="link-row" type="button" data-open="d-widget" aria-haspopup="dialog" aria-label="위젯 자세히 보기"><span>자세히 보기</span><svg class="chev" viewBox="0 0 7 12" aria-hidden="true"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </article>
     </div>
   </div>
@@ -576,7 +728,7 @@
       </div>
       <div class="card">
         <h3>바꾸기 전에 물어봐요</h3>
-        <p>프로젝트의 목표와 계획을 바꾸자는 제안은 직접 수락해야 적용되고, AI 코치의 제안도 확인 카드를 눌러야 바뀌어요. 동작별 다음 무게처럼 화면에 기준이 적힌 것은 그 기준대로 기록에 맞춰 바뀌어요.</p>
+        <p>프로젝트의 목표와 계획을 바꾸자는 제안은 직접 수락해야 적용되고, AI 코치가 낸 제안도 확인 카드를 눌러야 적용돼요. 동작별 다음 무게처럼 화면에 기준이 적힌 것은 그 기준에 따라 기록에 맞춰 바뀌어요.</p>
       </div>
     </div>
   </div>
@@ -592,7 +744,7 @@
       <a class="link-row" href="privacy.html"><span>개인정보처리방침 전문 보기</span><svg class="chev" viewBox="0 0 7 12" aria-hidden="true"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
     <ul class="card rows facts" role="list">
-      <li><b>둘러보기는 저장하지 않아요</b><span>로그인 없이 둘러보는 동안 남긴 기록은 저장되지 않고 서버로도 가지 않아요. 기록을 남기거나 AI 기능, 음식 검색, 기상 알람, 밤 소리 측정을 쓰려면 로그인해야 해요.</span></li>
+      <li><b>둘러보는 동안은 저장하지 않아요</b><span>로그인 없이 둘러보는 동안 남긴 기록은 저장되지 않고 서버로도 가지 않아요. 기록을 저장하거나 AI 기능, 음식 검색, 기상 알람, 밤 소리 측정을 쓰려면 로그인해야 해요.</span></li>
       <li><b>로그인하면 기기와 계정에</b><span>기록은 먼저 기기에 저장되고, 식단, 운동, 체중처럼 계정에 함께 저장되는 기록은 기기를 바꿔도 이어져요. 기기 안의 기록은 iCloud 기기 백업에 넣지 않아서, 밤 소리 기록처럼 iPhone에만 있는 기록은 기기를 바꾸면 사라져요. 식단 사진도 계정에 함께 올라가고, 다른 사람에게 공개되지 않는 비공개 저장소에 보관돼요.</span></li>
       <li><b>AI 기능은 Arecura 서버를 거쳐서</b><span>AI 기능을 쓸 때, 그리고 코칭 탭의 러닝 제안이나 2주 리포트처럼 앱이 AI로 제안을 만들 때 필요한 내용이 Arecura 서버를 거쳐 OpenAI의 AI 모델로 가요. 고른 사진, 대화 내용, 음식별 양과 열량이나 동작별 무게와 횟수 같은 세부 기록, 일정 제목이나 메모처럼 직접 적은 글이 들어갈 수 있어요. AI를 부르는 열쇠는 앱이 아니라 서버에만 둬요.</span></li>
       <li><b>광고에 쓰지 않아요</b><span>광고 식별자를 수집하지 않고, 건강 데이터를 광고, 판매, 보험이나 고용 결정에 쓰지 않아요.</span></li>
@@ -619,6 +771,161 @@
 
 </main>
 
+<dialog class="sheet" id="d-ai" aria-labelledby="d-ai-title">
+  <div class="sheet-head"><h2 id="d-ai-title">AI 코치</h2><button class="sheet-close" type="button" data-close>닫기</button></div>
+  <div class="sheet-body" tabindex="0">
+    <p class="lead-in">기록을 찾아보며 대화하고, 계획을 바꾸는 건 카드로 확인해요.</p>
+    <div class="iphone"><img src="img/m-chat-sm.webp" width="600" height="1304" loading="lazy" decoding="async" alt="AI 코치 대화 화면. 헬스장에 1.25kg 원판이 없어 벤치프레스 62.5kg을 못 맞춘다는 말에 코치가 답하고, 다음 목표를 바꾸자는 확인 카드가 붙은 화면."></div>
+    <ul class="card rows" role="list">
+      <li>아래 탭 막대의 AI를 누르면 보던 화면 위로 대화창이 열려요. 로그인한 뒤에 쓸 수 있고, 말투는 존댓말과 반말 중에 골라요.</li>
+      <li>「지난번 벤치프레스 몇 kg 들었지?」, 「최근 3주 잠은 어땠어?」처럼 물으면 식단, 근력, 체중, 체성분, 수면, 러닝, 카페인 기록을 찾아보고 답해요. 필요하면 기록 숫자로 그린 선, 막대, 표를 답 아래에 붙여요.</li>
+      <li>「다음 주 3분할 짜 줘」라고 하면 계획 카드를, 「점심 기록해 줘」라고 하면 식단 기록 카드를 만들어요. 카드의 버튼을 눌러야 플랜과 식단에 들어가고, 취소하면 아무것도 바뀌지 않아요.</li>
+      <li>멋진 몸 만들기를 진행 중이면 「헬스장에 1.25kg 원판이 없어서 62.5kg을 못 맞춰」처럼 말해 동작의 다음 목표(무게, 반복 범위, 세트)를 바꿔 달라고 할 수 있어요. 「다음 목표 바꾸기」 카드에서 「이대로 바꾸기」를 눌러야 바뀌어요.</li>
+      <li>체지방 감량, 근육 지키며 체지방 줄이기, 운동 퍼포먼스 올리기(근력), 수면 회복을 진행 중이면 요즘 상태를 말하는 것으로 그 주 점검을 남길 수 있어요. 그 결과로 나온 계획 변경은 프로젝트 화면에서 수락해야 적용돼요.</li>
+      <li>통증을 말하면 운동 계획 카드를 내지 않고 먼저 병원에서 확인받기를 권해요. 답이 화면에 나가기 전에는 원인을 단정하는 표현을 한 번 더 걸러요.</li>
+    </ul>
+    <p class="not">진단이나 처방은 하지 않아요. 프로젝트 점검처럼 대화로 답한 내용은 확인 카드 없이 바로 기록돼요.</p>
+  </div>
+</dialog>
+
+<dialog class="sheet" id="d-routine" aria-labelledby="d-routine-title">
+  <div class="sheet-head"><h2 id="d-routine-title">다음 주 루틴</h2><button class="sheet-close" type="button" data-close>닫기</button></div>
+  <div class="sheet-body" tabindex="0">
+    <p class="lead-in">운동 기록과 설문으로 루틴을 짜고, 왜 그렇게 짰는지 함께 보여 줘요.</p>
+    <div class="iphone"><img src="img/m-routine-sm.webp" width="600" height="1304" loading="lazy" decoding="async" alt="다음 주 루틴 화면. 3분할(푸시, 풀, 레그) 주 3회 A안과, 세트 수, 분할, 넣은 동작을 왜 그렇게 정했는지 적은 「이렇게 짰어요」 카드. 아래에 「다음 주 플랜에 반영」 버튼."></div>
+    <ul class="card rows" role="list">
+      <li>최근 4주에 운동 기록이 4번 이상이거나 운동 설문을 마치면 코칭 탭 운동에 헬스 루틴 제안이 열려요. 카드 맨 위에 운동 수준, 분할, 주 몇 회인지가 적혀 있어요.</li>
+      <li>같은 기록으로 세 가지 안을 보여 줘요. A안은 기본 루틴, B안은 같은 동작에 자극을 바꿔 보는 안, C안은 초급이면 머신과 맨몸 위주, 그 위 수준이면 적게 한 부위에 한 종목을 더해 균형을 맞추는 안이에요.</li>
+      <li>「주간 루틴 자세히 보기」를 누르면 요일마다 동작과 세트가 나오고, 「이렇게 짰어요」에서 세트 수, 분할, 운동 시간, 장소, 넣은 동작을 왜 그렇게 정했는지 읽을 수 있어요. 마음에 안 드는 동작은 다른 종목으로 바꿀 수 있어요.</li>
+      <li>「내 상황에 맞추기」에서 한 번에 운동할 수 있는 시간, 주로 운동하는 장소, 더 신경 쓰고 싶은 부위(두 곳까지)를 답하면 그 답에 맞춰 다시 짜요.</li>
+      <li>이번 주나 다음 주를 골라 「플랜에 반영」을 누르면 확인을 한 번 거친 뒤 일정과 캘린더의 빈 시간에 운동이 들어가요. 빈 시간을 못 찾은 날은 「시간 미정」이라고 알려 줘요.</li>
+    </ul>
+    <p class="not">동작과 세트, 「이렇게 짰어요」 설명은 앱에 정해 둔 규칙으로 정해요. 로그인하면 AI가 안마다 제목과 요약 문장을 다듬고, 요일과 동작마다 넣은 까닭을 덧붙여요.</p>
+  </div>
+</dialog>
+
+<dialog class="sheet" id="d-run" aria-labelledby="d-run-title">
+  <div class="sheet-head"><h2 id="d-run-title">러닝</h2><button class="sheet-close" type="button" data-close>닫기</button></div>
+  <div class="sheet-body" tabindex="0">
+    <p class="lead-in">Apple 건강 앱의 러닝과 걷기를 이어받아 경로와 심박 구간으로 보여 줘요.</p>
+    <div class="iphone"><img src="img/m-run-sm.webp" width="600" height="1304" loading="lazy" decoding="async" alt="러닝 기록 화면. 여의도공원 산책길을 한 바퀴 도는 경로를 심박 구간 색으로 칠한 지도. 예시 기록이에요."></div>
+    <ul class="card rows" role="list">
+      <li>Apple 건강 앱에 저장된 러닝과 걷기를 저절로 가져와요. 기록하기 탭 운동의 러닝 화면 달력에 러닝과 걷기가 나뉘어 표시되고, 최근 14일 목록도 함께 보여요.</li>
+      <li>앱에서 「러닝 시작」이나 「걷기 시작」을 누르면 GPS로 거리, 페이스, 경로를 기록하고, 달리는 동안 잠금 화면과 다이내믹 아일랜드에 거리와 시간이 보여요.</li>
+      <li>러닝 하나를 열면 심박 구간 색으로 칠한 경로 지도, 거리와 시간과 페이스, 시간별 심박 그래프, 심박 구간별 시간과 칼로리, 1km 구간 페이스를 차례로 보여 줘요. 심박 그래프와 심박 구간 값은 워치처럼 심박을 남긴 기기가 있을 때만 나와요.</li>
+      <li>심박 구간은 운동 기록에 저장된 기준이 있으면 그것을 쓰고, 없으면 나이로 어림한 구간을 쓰면서 참고용이라고 화면에 밝혀요.</li>
+      <li>러닝 기록이 있으면 코칭 탭 운동에서 최근 30일 기록을 보고 이번 주나 다음 주에 할 러닝 세 가지 안을 내고, 고른 안을 「플랜에 반영」으로 일정에 넣어요.</li>
+    </ul>
+    <p class="not">심박 구간은 참고용이고 의학적 기준이 아니에요. GPS 거리와 페이스는 실제와 차이가 날 수 있어요.</p>
+  </div>
+</dialog>
+
+<dialog class="sheet" id="d-sleep" aria-labelledby="d-sleep-title">
+  <div class="sheet-head"><h2 id="d-sleep-title">수면</h2><button class="sheet-close" type="button" data-close>닫기</button></div>
+  <div class="sheet-body" tabindex="0">
+    <p class="lead-in">바꾸고 싶은 것 하나를 고르면, 이번에 해 볼 행동 하나를 이유와 함께 정해 줘요.</p>
+    <div class="iphone"><img src="img/m-sleep-sm.webp" width="600" height="1304" loading="lazy" decoding="async" alt="수면 회복 프로젝트 화면. 이번 행동 「잘 수 있는 시간을 15분 먼저 확보하기」와 왜 하는지, 예시가 적힌 화면."></div>
+    <ul class="card rows" role="list">
+      <li>기록하기 탭 수면에서 「어젯밤 잘 잤어요?」에 다섯 단계 중 하나로 답하고, 잔 시각과 일어난 시각을 남겨요. Apple 건강 앱에 그날 밤 수면이 있으면 시간이 저절로 채워져요.</li>
+      <li>수면 회복 프로젝트는 잘 시간 부족, 불규칙한 시간, 잠들기 어려움, 자주 깸, 낮 졸림 가운데 가장 바꾸고 싶은 것 하나를 고르면 시작해요. 워치가 없어도 시작할 수 있어요.</li>
+      <li>고른 어려움에 맞춰 이번 행동 하나를 정해요. 잘 시간이 부족하면 「잘 수 있는 시간을 15분 먼저 확보하기」, 자주 깨면 「빛, 소리, 온도 중 하나 조정하기」처럼요. 행동마다 왜 하는지와 오늘 밤 해 볼 수 있는 예시를 함께 보여 줘요.</li>
+      <li>점검에서는 이번 행동을 해 본 날, 실행하기 어땠는지, 낮 생활 지장, 늦은 카페인 같은 것을 묻고, 행동을 바꾸자는 제안은 「변경하기」를 눌러야 바뀌어요.</li>
+      <li>운전 중 졸림이나 숨이 막혀 깨는 걱정은 「졸림, 호흡 걱정 알리기」로 언제든 알릴 수 있고, 그때는 생활 계획보다 안전과 상담 안내를 먼저 보여 줘요.</li>
+    </ul>
+    <p class="not">수면 질환을 판정하거나 치료하지 않아요. 같은 행동이라도 맞는 정도는 사람마다 달라요.</p>
+  </div>
+</dialog>
+
+<dialog class="sheet" id="d-strength" aria-labelledby="d-strength-title">
+  <div class="sheet-head"><h2 id="d-strength-title">근력 기록</h2><button class="sheet-close" type="button" data-close>닫기</button></div>
+  <div class="sheet-body" tabindex="0">
+    <p class="lead-in">세트마다 무게와 횟수를 남기고, 지난 기록과 나란히 봐요.</p>
+    <ul class="card rows" role="list">
+      <li>기록하기 탭 운동의 헬스에서 부위나 이름으로 동작을 찾아 넣어요. 자주 하는 동작은 즐겨찾기로 모아 보고, 목록에 없는 동작은 직접 추가할 수 있어요.</li>
+      <li>동작을 고르면 지난 세트 무게와 횟수가 미리 채워지고, 최대 무게, 최대 1RM, 볼륨을 지난번 기록과 가장 좋았던 기록 옆에 나란히 보여 줘요.</li>
+      <li>세트를 완료하면 휴식 타이머가 저절로 시작되고, 끝나기 10초 전과 끝날 때 두 번 소리와 진동으로 알려요. 종료음은 비프, 차임, 복싱 벨 같은 9가지 중에서 골라요.</li>
+      <li>휴식 남은 시간은 잠금 화면과 다이내믹 아일랜드에도 보여서, 폰을 열지 않고 다음 세트를 기다릴 수 있어요.</li>
+      <li>헬스 화면 맨 위 달력에 운동한 날과 그날 한 부위가 색 점으로 찍혀요. 두 동작 이상을 슈퍼세트로 묶어 기록할 수도 있어요.</li>
+      <li>부위마다 기록으로 어림한 권장 간격이 지나면 알림으로 알려 줘요. 몸이 회복됐다는 판정은 아니에요.</li>
+    </ul>
+    <p class="not">1RM은 직접 잰 값이 아니라 세트의 무게와 횟수로 계산한 값이에요.</p>
+  </div>
+</dialog>
+
+<dialog class="sheet" id="d-alarm" aria-labelledby="d-alarm-title">
+  <div class="sheet-head"><h2 id="d-alarm-title">기상 알람</h2><button class="sheet-close" type="button" data-close>닫기</button></div>
+  <div class="sheet-body" tabindex="0">
+    <p class="lead-in">시각과 요일을 골라 두면 정한 시각에 깨워 줘요. 알람 권한을 허용하면 무음 모드에서도 울려요.</p>
+    <ul class="card rows" role="list">
+      <li>기록하기 탭 수면의 「알람」에서 알람 시각과 울릴 요일을 골라요. 일곱 요일을 다 고르면 매일 울려요.</li>
+      <li>알람 권한을 허용하면 집중 모드나 방해 금지가 켜져 있어도, 기기가 무음이어도 울려요. 권한이 없으면 무음일 때 진동만 울린다고 화면이 그대로 알려 줘요.</li>
+      <li>소리는 따뜻한 패드, 아침 종, 마림바, 하프, 또렷한 신호음 다섯 가지예요. 소리마다 무엇이 다른지 한 줄 설명을 보고 미리 들어 본 뒤 골라요.</li>
+      <li>화면에 다음 알람 시각과, 알람이 시스템에 실제로 걸렸는지 그때그때 적어 둔 기록이 보여요. iOS 알림이나 알람 소리가 꺼져 있으면 무엇이 꺼졌는지 따로 알려 줘요.</li>
+      <li>알람을 저장하려면 로그인해야 해요.</li>
+    </ul>
+    <p class="not">지금은 정한 시각에 울리는 알람이에요. 잠의 깊이를 재서 깨우는 기능은 없어요.</p>
+  </div>
+</dialog>
+
+<dialog class="sheet" id="d-report" aria-labelledby="d-report-title">
+  <div class="sheet-head"><h2 id="d-report-title">AI 리포트</h2><button class="sheet-close" type="button" data-close>닫기</button></div>
+  <div class="sheet-body" tabindex="0">
+    <p class="lead-in">2주 동안의 기록을 정리하고, 다음 2주 운동과 식단 계획까지 받아요.</p>
+    <ul class="card rows" role="list">
+      <li>리포트 탭 맨 위 AI 리포트에서 처음 한 번 「생성」을 누르면 만들어지고, 그 뒤로는 14일이 지나면 새 리포트가 저절로 만들어져요. 다음 생성 날짜도 카드에 보여요. 로그인이 필요해요.</li>
+      <li>앱의 계산 엔진이 최근 2주 체중, 식단, 운동, 러닝, 수면 기록을 숫자로 먼저 정리하고, AI는 그 숫자를 바탕으로 분석 문장과 다음 2주 운동, 식단 계획을 써요.</li>
+      <li>리포트는 최근 2주 분석, 다음 2주 운동 계획, 다음 2주 식단 계획, 이번 2주 체크포인트 같은 칸으로 나뉘고, 칸을 누르면 자세한 내용이 열려요.</li>
+      <li>체크포인트는 해 본 것을 눌러 체크해 두면, 다음에 열었을 때도 그대로 남아 있어요.</li>
+      <li>새 리포트가 만들어지면 알림으로 알려 줘요.</li>
+    </ul>
+    <p class="not">리포트는 관찰한 기록에 기댄 코칭이고, 의학적 진단이 아니에요.</p>
+  </div>
+</dialog>
+
+<dialog class="sheet" id="d-caffeine" aria-labelledby="d-caffeine-title">
+  <div class="sheet-head"><h2 id="d-caffeine-title">카페인</h2><button class="sheet-close" type="button" data-close>닫기</button></div>
+  <div class="sheet-body" tabindex="0">
+    <p class="lead-in">마신 잔을 담으면, 누울 시각에 몸에 얼마나 남을지 어림해 줘요.</p>
+    <ul class="card rows" role="list">
+      <li>기록하기 탭 수면의 「카페인 계산기」에서 몇 시에 누울지 적고, 마신 음료를 목록에서 고르거나 mg으로 직접 넣어 담아요.</li>
+      <li>식단에 이미 기록한 커피 같은 음료는 미리 담아 두었다고 알려 줘서 같은 잔을 두 번 세지 않게 해요.</li>
+      <li>담은 잔으로 시간에 따라 몸에 남은 카페인 양을 그래프로 그리고, 누울 시각에 얼마나 남을지 어림해요.</li>
+      <li>「끊는 시각」을 제안해요. 이 시각 뒤에 마신 잔은 잠들 무렵까지 몸에 남는다고 어림한 시각이에요. 「알림 받기」를 켜면 매일 그 시각에 한 번 알려 줘요. 알림은 직접 켜야 와요.</li>
+      <li>목록의 음료는 흔한 제품을 기준으로 한 어림값이라, 포장에 적힌 값을 알면 직접 입력하는 쪽이 더 정확하다고 안내해요.</li>
+    </ul>
+    <p class="not">카페인이 몸에서 빠지는 속도는 사람마다 크게 달라서, 실제로는 더 많거나 적게 남을 수 있어요.</p>
+  </div>
+</dialog>
+
+<dialog class="sheet" id="d-watch" aria-labelledby="d-watch-title">
+  <div class="sheet-head"><h2 id="d-watch-title">Apple Watch</h2><button class="sheet-close" type="button" data-close>닫기</button></div>
+  <div class="sheet-body" tabindex="0">
+    <p class="lead-in">손목에서 오늘 상태를 보고, 운동 중에는 세트와 휴식을 넘겨요.</p>
+    <ul class="card rows" role="list">
+      <li>워치 앱을 열면 오늘 먹은 열량과 목표까지의 진행, 단백질, 최근 체중을 바로 볼 수 있어요.</li>
+      <li>iPhone에서 헬스 운동을 시작하면 워치의 「진행 중 운동」이 지금 할 세트를 바로 열어 줘요. 「운동 목록」에서 다른 동작으로도 옮겨 갈 수 있어요.</li>
+      <li>세트 화면에서 그 세트의 무게와 반복수, 다음 세트 전 휴식 시간을 보고, 「세트 완료」를 눌러 끝내면 iPhone 기록에 반영돼요.</li>
+      <li>운동 중에는 워치 맨 위에 휴식 남은 시간이 원형 초읽기로 돌고, 어느 동작의 몇 번째 세트를 끝냈는지 한 줄로 보여요. 휴식이 끝날 때 손목 진동으로 알리고, 설정에서 끌 수 있어요.</li>
+      <li>운동 시작과 리포트, 코칭은 iPhone에서 해요.</li>
+    </ul>
+  </div>
+</dialog>
+
+<dialog class="sheet" id="d-widget" aria-labelledby="d-widget-title">
+  <div class="sheet-head"><h2 id="d-widget-title">위젯</h2><button class="sheet-close" type="button" data-close>닫기</button></div>
+  <div class="sheet-body" tabindex="0">
+    <p class="lead-in">홈과 잠금 화면, 제어 센터에서 앱의 자주 쓰는 화면을 바로 열어요.</p>
+    <ul class="card rows" role="list">
+      <li>홈 화면에는 작은, 중간, 큰 위젯을, 잠금 화면에는 원형, 사각, 한 줄 위젯을 놓을 수 있어요.</li>
+      <li>위젯을 길게 눌러 「위젯 편집」에서 칼로리, 걸음 수, 단백질, 오늘의 행동, 미니 프로젝트 중 무엇을 보여 줄지 골라요.</li>
+      <li>홈 화면의 칼로리 위젯을 누르면 식단 기록 화면이 바로 열려요.</li>
+      <li>제어 센터나 잠금 화면 버튼에 「식단 기록」, 「음식 찍기」, 「Arecura 챗봇」을 넣어 두면 누르는 즉시 식단 기록, 카메라, AI 코치 화면이 열려요.</li>
+      <li>GPS로 달리는 동안에는 거리와 시간이, 세트 사이 휴식 중에는 남은 시간이 잠금 화면과 다이내믹 아일랜드에 실시간으로 보여요.</li>
+    </ul>
+    <p class="not">위젯의 숫자는 앱이 마지막으로 넘긴 값이라, 앱을 오래 열지 않으면 늦을 수 있어요.</p>
+  </div>
+</dialog>
+
 <footer>
   <div class="wrap">
     <div class="row">
@@ -642,5 +949,70 @@
     <p>© 2026 Arecura</p>
   </div>
 </footer>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // 하이라이트 넘겨 보기
+  const track = document.querySelector('.hl-track');
+  if (track) {
+    const slides = [...track.children];
+    const dots = [...document.querySelectorAll('.hl-dot')];
+    const prev = document.querySelector('.hl-arrow[data-step="-1"]');
+    const next = document.querySelector('.hl-arrow[data-step="1"]');
+    let current = 0;
+    // 버튼으로 가는 중인 칸. 부드러운 스크롤 도중에 한 번 더 눌러도 그다음 칸으로 간다.
+    let pending = null;
+    const offsetOf = i => slides[i].offsetLeft - slides[0].offsetLeft;
+    const maxLeft = () => track.scrollWidth - track.clientWidth;
+    const go = i => {
+      i = Math.max(0, Math.min(slides.length - 1, i));
+      pending = i;
+      track.scrollTo({left: Math.min(offsetOf(i), maxLeft()), behavior: reduce ? 'auto' : 'smooth'});
+    };
+    const sync = () => {
+      const x = track.scrollLeft;
+      if (pending !== null && Math.abs(Math.min(offsetOf(pending), maxLeft()) - x) < 2) pending = null;
+      let best = 0;
+      slides.forEach((_, i) => { if (Math.abs(offsetOf(i) - x) < Math.abs(offsetOf(best) - x)) best = i; });
+      const atEnd = x + track.clientWidth >= track.scrollWidth - 2;
+      current = atEnd ? slides.length - 1 : best;
+      dots.forEach((d, i) => d.setAttribute('aria-current', i === current ? 'true' : 'false'));
+      // disabled 를 쓰면 끝에 닿는 순간 버튼에 있던 포커스가 사라진다
+      prev.setAttribute('aria-disabled', String(x <= 2));
+      next.setAttribute('aria-disabled', String(atEnd));
+    };
+    let ticking = false;
+    track.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { ticking = false; sync(); });
+    }, {passive: true});
+    prev.addEventListener('click', () => go((pending ?? current) - 1));
+    next.addEventListener('click', () => go((pending ?? current) + 1));
+    // 손으로 넘기기 시작하면 버튼이 정한 목표는 버린다
+    ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(t => track.addEventListener(t, () => { pending = null; }, {passive: true}));
+    dots.forEach(d => d.addEventListener('click', () => go(+d.dataset.go)));
+    addEventListener('resize', sync);
+    sync();
+  }
+  // 자세히 보기 시트
+  let opener = null;
+  document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => {
+    const d = document.getElementById(b.dataset.open);
+    if (!d || typeof d.showModal !== 'function') return;
+    opener = b;
+    d.showModal();
+    d.querySelector('.sheet-body').scrollTop = 0;
+  }));
+  document.querySelectorAll('dialog.sheet').forEach(d => {
+    d.querySelector('[data-close]').addEventListener('click', () => d.close());
+    // 바깥을 눌렀다 뗐을 때만 닫는다(안에서 글을 고르다 바깥에서 떼면 닫지 않는다)
+    let downOnBackdrop = false;
+    d.addEventListener('pointerdown', e => { downOnBackdrop = e.target === d; });
+    d.addEventListener('click', e => { if (downOnBackdrop && e.target === d) d.close(); downOnBackdrop = false; });
+    d.addEventListener('close', () => { if (opener) opener.focus(); opener = null; });
+  });
+})();
+</script>
 </body>
 </html>
