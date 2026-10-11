@@ -228,13 +228,12 @@
   @media (max-width:374px){.closing h2{font-size:28px}}
 
 
-  /* ---------- 아이폰 틀(웹 전용 그림 틀, 화면은 실제 앱 캡처) ---------- */
-  /* 테두리는 그림의 바깥 여백으로 낸다. 감싸는 상자의 퍼센트 안 여백은 부모 폭을 따라가 자리마다 두께가 달라진다. */
-  .iphone{position:relative;display:flow-root;width:100%;border-radius:17% / 7.9%;background:#1C1C1E;
-    box-shadow:inset 0 0 0 1.5px #3A3A3C,var(--card-shadow)}
-  .iphone img{width:93.2%;margin:3.4%;border-radius:13.7% / 6.3%;background:var(--control-bg)}
-  .iphone::after{content:"";position:absolute;top:2.85%;left:50%;width:29%;height:4.1%;transform:translateX(-50%);
-    border-radius:var(--r-pill);background:#000}
+  /* ---------- 앱 화면(실제 캡처)만, 테두리 없이 ---------- */
+  /* 창업자 2026-10-09 「아이폰 베젤 빼고 화면만, 흰 바탕과 갈리게 그림자」: 화면 모서리(iPhone 18 Pro 화면 곡률 약 55pt / 402 x 874pt)에
+     앱 카드 가장자리(CardOuterEdge: 0.5pt 윤곽과 그림자 두 겹)를 그대로 두른다. 곡률 62pt 는 시뮬레이터 기기 프로필 DeviceCornerRadius. */
+  .iphone{position:relative;display:block;width:100%;border-radius:15.4% / 7.1%;overflow:hidden;background:var(--control-bg);
+    border:var(--hairline) solid var(--card-border);box-shadow:var(--card-shadow)}
+  .iphone img{width:100%}
 
   /* ---------- 하이라이트(넘겨 보기) ---------- */
   .hl-head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--s-lg);margin-bottom:clamp(24px,4vw,40px)}
@@ -308,6 +307,8 @@
   .sheet-close:active{opacity:var(--pressed)}
   .sheet-body{overflow-y:auto;max-height:calc(min(88vh,920px) - 56px);max-height:calc(min(88dvh,920px) - 56px);padding:var(--s-xl) var(--s-xl) var(--s-xxl)}
   .sheet-body:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+  .sheet-body .rule-shot{margin-top:var(--s-xl)}
+  .step-text .link-row{margin-top:var(--s-lg)}
   .sheet-body .lead-in{font-size:17px;color:var(--muted)}
   .sheet-body .iphone{width:min(260px,70%);margin:var(--s-xl) auto 0}
   .sheet-body .card{margin-top:var(--s-xl);padding:0}
@@ -536,17 +537,18 @@
         <div class="step-text">
           <span class="step-num"><span class="num">2</span>이번 주 할 일 정하기</span>
           <h3>막연한 조언 대신, 숫자와 행동으로</h3>
-          <p>근력 운동이라면 동작마다 다음 무게와 반복 범위, 세트 수를 알려 줘요. 기록이 화면에 적힌 기준을 채우면 다음 목표를 한 단계 올리고, 왜 올리는지도 같이 적어요.</p>
+          <p>근력 운동이라면 이번 주 부위마다 몇 세트가 남았는지와, 동작마다 다음에 들 무게와 반복, 세트를 한 카드로 보여 줘요. 무게를 올리는 주에는 왜 올리는지도 같이 적어요.</p>
           <ul class="dots" role="list">
             <li>수면 회복이라면 이번 주에 해 볼 행동 하나와 그 이유, 예시를 보여 줘요.</li>
             <li>식단이라면 하루 열량과 단백질 목표, 끼니별로 먹을 조합을 제안해요.</li>
           </ul>
+          <button class="link-row" type="button" data-open="d-rule" aria-haspopup="dialog"><span>무게를 올리는 기준 보기</span><svg class="chev" viewBox="0 0 7 12" aria-hidden="true"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
         <div class="media">
           <div class="shot">
-            <img src="img/strength-rule.webp" srcset="img/strength-rule-sm.webp 554w, img/strength-rule.webp 1109w" sizes="(max-width: 432px) calc(100vw - 32px), 400px"
-                 width="1109" height="1524" loading="lazy" decoding="async"
-                 alt="반복 범위 8~12회에서 세트별 반복 횟수 예시 막대(12회, 10회, 9회)와 무게를 올리는 기준이 적힌 화면. 첫 세트는 범위 위쪽 끝까지, 나머지 세트는 아래쪽 끝 이상 해낸 날이 두 번 이어지면 한 단계 올린다는 기준과, 범위 위쪽 끝이 6회 이하인 동작은 최근 3번 중 2번 채우면 올린다는 안내.">
+            <img src="img/this-week.webp" srcset="img/this-week-sm.webp 554w, img/this-week.webp 1108w" sizes="(max-width: 432px) calc(100vw - 32px), 400px"
+                 width="1108" height="1683" loading="lazy" decoding="async"
+                 alt="멋진 몸 만들기의 이번 주 운동 카드 윗부분. 이번 주(10월 4일~10월 10일)에 근력 운동을 3번 했다는 줄, 가슴, 등, 어깨, 이두, 삼두, 하체, 코어마다 한 세트와 남은 세트, 다음 목표 바벨 벤치프레스 62.5kg 6~10회 3세트와 지난번 60kg으로 10, 9, 8회, 한 단계 올린 까닭.">
           </div>
         </div>
       </article>
@@ -574,7 +576,7 @@
         <div class="step-text">
           <span class="step-num"><span class="num">4</span>점검하고 다시 맞추기</span>
           <h3>점검하고, 바꿀 건 직접 정해요</h3>
-          <p>점검일에 짧은 질문에 골라서 답하면, 앱이 그 답을 기록과 함께 보고 바꿔 볼 한 가지가 있을 때 제안해요. 계획을 바꾸자는 제안은 직접 수락해야 바뀌어요.</p>
+          <p>점검일에 짧은 질문에 골라서 답하면, 앱이 그 답을 기록과 함께 보고 바꿔 볼 한 가지가 있을 때 제안해요. 왜 바꾸자는지는 점검과 변경 기록에 남고, 계획은 직접 수락해야 바뀌어요.</p>
           <ul class="dots" role="list">
             <li>점검일이 되면 알림을 보내 드려요.</li>
           </ul>
@@ -584,6 +586,11 @@
             <img src="img/plan-proposal.webp" srcset="img/plan-proposal-sm.webp 554w, img/plan-proposal.webp 1108w" sizes="(max-width: 432px) calc(100vw - 32px), 400px"
                  width="1108" height="543" loading="lazy" decoding="async"
                  alt="계획 변경 제안 카드. 하루 열량 목표를 2286kcal에서 2386kcal로 바꾸자는, 아직 적용되지 않은 제안과 「변경하기」, 「현재 계획 유지」 버튼.">
+          </div>
+          <div class="shot">
+            <img src="img/plan-reason.webp" srcset="img/plan-reason-sm.webp 554w, img/plan-reason.webp 1108w" sizes="(max-width: 432px) calc(100vw - 32px), 400px"
+                 width="1108" height="338" loading="lazy" decoding="async"
+                 alt="점검과 변경 기록 카드. 10월 7일, 생활에 지장이 있는 배고픔이 이어져 하루 목표를 100kcal 완화하는 변경안을 만들었다는 기록.">
           </div>
         </div>
       </article>
@@ -701,11 +708,11 @@
     <ul class="card rows facts" role="list">
       <li><b>둘러보는 동안은 저장하지 않아요</b><span>로그인 없이 둘러보는 동안 남긴 기록은 저장되지 않고 서버로도 가지 않아요.</span></li>
       <li><b>로그인하면 기기와 계정에</b><span>계정에 함께 저장되는 기록은 기기를 바꿔도 이어지고, 밤 소리 기록처럼 iPhone에만 있는 기록은 기기를 바꾸면 사라져요.</span></li>
-      <li><b>AI 기능은 Arecura 서버를 거쳐서</b><span>AI 기능에 필요한 내용이 Arecura 서버를 거쳐 OpenAI의 AI 모델로 가요.</span></li>
+      <li><b>AI 기능은 Arecura 서버를 거쳐서</b><span>AI 기능에 필요한 내용이 Arecura 서버를 거쳐 AI 모델로 가요. 식단 사진 분석(AI 코치 대화에서 식단 기록으로 보낸 사진 포함)은 Anthropic, AI 코치 대화와 리포트 같은 나머지 기능은 OpenAI의 모델을 써요. 식단 사진도 경우에 따라 OpenAI로 가고, Anthropic 분석이 실패하면 두 곳 모두에 가요.</span></li>
       <li><b>광고에 쓰지 않아요</b><span>광고 식별자를 수집하지 않고, 건강 데이터를 광고, 판매, 보험이나 고용 결정에 쓰지 않아요.</span></li>
       <li><b>건강 앱은 읽기만</b><span>iPhone 앱은 Apple 건강 앱 데이터를 읽기만 해요.</span></li>
       <li><b>앱이 멈추면 오류 기록을</b><span>로그인한 상태에서 앱이 비정상으로 끝나면 고치는 데 쓰는 오류 기록이 서버로 가요.</span></li>
-      <li><b>계정은 앱에서 직접 지워요</b><span>설정의 계정 메뉴에서 지울 수 있어요. 이미 AI 모델로 보낸 내용은 Arecura가 지울 수 없고 OpenAI 정책에 따라 처리돼요.</span></li>
+      <li><b>계정은 앱에서 직접 지워요</b><span>설정의 계정 메뉴에서 지울 수 있어요. 이미 AI 모델로 보낸 내용은 Arecura가 지울 수 없고 Anthropic과 OpenAI 각자의 정책에 따라 처리돼요.</span></li>
     </ul>
   </div>
 </section>
@@ -857,6 +864,18 @@
   </div>
 </dialog>
 
+<dialog class="sheet" id="d-rule" aria-labelledby="d-rule-title">
+  <div class="sheet-head"><h2 id="d-rule-title">무게를 올리는 기준</h2><button class="sheet-close" type="button" data-close>닫기</button></div>
+  <div class="sheet-body" tabindex="0">
+    <p class="lead-in">다음 목표는 화면에 적힌 이 기준대로, 기록에 맞춰 바뀌어요.</p>
+    <div class="shot rule-shot">
+      <img src="img/strength-rule.webp" srcset="img/strength-rule-sm.webp 554w, img/strength-rule.webp 1109w" sizes="(max-width: 600px) calc(100vw - 72px), 560px"
+           width="1109" height="1524" loading="lazy" decoding="async"
+           alt="반복 범위 8~12회에서 세트별 반복 횟수 예시 막대(12회, 10회, 9회)와 무게를 올리는 기준이 적힌 화면. 첫 세트는 범위 위쪽 끝까지, 나머지 세트는 아래쪽 끝 이상 해낸 날이 두 번 이어지면 한 단계 올린다는 기준과, 범위 위쪽 끝이 6회 이하인 동작은 최근 3번 중 2번 채우면 올린다는 안내.">
+    </div>
+  </div>
+</dialog>
+
 <dialog class="sheet" id="d-strength" aria-labelledby="d-strength-title">
   <div class="sheet-head"><h2 id="d-strength-title">근력 기록</h2><button class="sheet-close" type="button" data-close>닫기</button></div>
   <div class="sheet-body" tabindex="0">
@@ -966,11 +985,11 @@
     <ul class="card rows" role="list">
       <li><b>둘러보는 동안은 저장하지 않아요</b><span>로그인 없이 둘러보는 동안 남긴 기록은 저장되지 않고 서버로도 가지 않아요. 기록을 저장하거나 AI 기능, 음식 검색, 기상 알람, 밤 소리 측정을 쓰려면 로그인해야 해요.</span></li>
       <li><b>로그인하면 기기와 계정에</b><span>기록은 먼저 기기에 저장되고, 식단, 운동, 체중처럼 계정에 함께 저장되는 기록은 기기를 바꿔도 이어져요. 기기 안의 기록은 iCloud 기기 백업에 넣지 않아서, 밤 소리 기록처럼 iPhone에만 있는 기록은 기기를 바꾸면 사라져요. 식단 사진도 계정에 함께 올라가고, 다른 사람에게 공개되지 않는 비공개 저장소에 보관돼요.</span></li>
-      <li><b>AI 기능은 Arecura 서버를 거쳐서</b><span>AI 기능을 쓸 때, 그리고 코칭 탭의 러닝 제안이나 2주 리포트처럼 앱이 AI로 제안을 만들 때 필요한 내용이 Arecura 서버를 거쳐 OpenAI의 AI 모델로 가요. 고른 사진, 대화 내용, 음식별 양과 열량이나 동작별 무게와 횟수 같은 세부 기록, 일정 제목이나 메모처럼 직접 적은 글이 들어갈 수 있어요. AI를 부르는 열쇠는 앱이 아니라 서버에만 둬요.</span></li>
+      <li><b>AI 기능은 Arecura 서버를 거쳐서</b><span>AI 기능을 쓸 때, 그리고 코칭 탭의 러닝 제안이나 2주 리포트처럼 앱이 AI로 제안을 만들 때 필요한 내용이 Arecura 서버를 거쳐 AI 모델로 가요. 식단 사진 분석(AI 코치 대화에서 식단 기록으로 보낸 사진 포함)은 Anthropic의 모델을 쓰고, AI 코치 대화와 리포트를 비롯한 나머지 기능은 OpenAI의 모델을 써요. Anthropic 분석이 실패하면 같은 사진과 내용을 OpenAI의 모델로 다시 분석해서 이때는 두 곳 모두에 가고, 그 밖에도 경우에 따라 식단 사진을 OpenAI의 모델로 분석할 수 있어요. 고른 사진, 대화 내용, 음식별 양과 열량이나 동작별 무게와 횟수 같은 세부 기록, 일정 제목이나 메모처럼 직접 적은 글이 들어갈 수 있어요. AI를 부르는 열쇠는 앱이 아니라 서버에만 둬요.</span></li>
       <li><b>광고에 쓰지 않아요</b><span>광고 식별자를 수집하지 않고, 건강 데이터를 광고, 판매, 보험이나 고용 결정에 쓰지 않아요.</span></li>
       <li><b>건강 앱은 읽기만</b><span>iPhone 앱은 Apple 건강 앱 데이터를 읽기만 해요. Apple Watch는 세트를 감지하는 동안 화면을 켜 두려고 운동 권한을 묻지만, 운동 기록을 건강 앱에 저장하지 않아요.</span></li>
       <li><b>앱이 멈추면 오류 기록을</b><span>로그인한 상태에서 앱이 비정상으로 끝나면, 고치는 데 쓰는 오류 기록(화면 종류, 시각, 기기와 시스템 정보)이 서버로 가요.</span></li>
-      <li><b>계정은 앱에서 직접 지워요</b><span>설정의 계정 메뉴에서 계정을 지울 수 있어요. 다만 이미 AI 모델로 보낸 내용은 Arecura가 지울 수 없고 OpenAI 정책에 따라 처리돼요(부정 사용 확인을 위해 최대 30일 보관될 수 있어요).</span></li>
+      <li><b>계정은 앱에서 직접 지워요</b><span>설정의 계정 메뉴에서 계정을 지울 수 있어요. 다만 이미 AI 모델로 보낸 내용은 Arecura가 지울 수 없고 Anthropic과 OpenAI 각자의 정책에 따라 처리돼요(두 곳 모두 기본으로 모델 학습에 쓰지 않고, 최대 30일 보관될 수 있어요. 부정 사용 확인이나 법적 의무가 있으면 더 오래 남을 수 있어요).</span></li>
     </ul>
     <a class="link-row" href="privacy.html"><span>개인정보처리방침 전문 보기</span><svg class="chev" viewBox="0 0 7 12" aria-hidden="true"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
   </div>
