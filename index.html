@@ -1278,7 +1278,7 @@
       if (result.status === 'full') {
         status.textContent = full;
       } else if (response.ok && ['invited', 'already'].includes(result.status)) {
-        status.textContent = result.status === 'already' ? '이미 신청됨' : 'Apple에서 초대 메일이 갑니다';
+        status.textContent = result.status === 'already' ? '이미 신청했어요. 메일함에서 Apple 초대를 확인해 주세요' : '메일함에서 Apple 초대를 확인해 주세요';
         complete = true; email.readOnly = true; nickname.readOnly = true; consent.disabled = true;
       } else {
         throw new Error('signup');
@@ -1288,7 +1288,7 @@
       ticket = '';
     } finally {
       clearTimeout(timer); busy = false; form.setAttribute('aria-busy', 'false');
-      button.textContent = '신청하기'; update();
+      button.textContent = complete ? '신청 완료' : '신청하기'; update();
     }
   });
 })();
