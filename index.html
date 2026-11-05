@@ -865,7 +865,7 @@
     <p class="lead-in">기록을 찾아보며 대화하고, 계획을 바꾸는 건 카드로 확인해요.</p>
     <div class="iphone"><img src="img/m-chat-sm.webp" width="600" height="1304" loading="lazy" decoding="async" alt="AI 코치 대화 화면. 지난주 벤치프레스 기록을 묻자 코치가 무게와 횟수로 답하고, 헬스장에 1.25kg 원판이 없어 62.5kg을 못 맞춘다는 말에 다음 목표를 바꾸자는 확인 카드가 붙은 화면. 예시 대화예요."></div>
     <ul class="card rows" role="list">
-      <li>아래 탭 막대의 AI를 누르면 보던 화면 위로 대화창이 열려요. 로그인한 뒤에 쓸 수 있어요. 설정의 「트레이너 스타일」에서 존댓말과 반말, 엄격한 매니저, 응원해주는 코치, 차분한 분석가 중에 골라요.</li>
+      <li>아래 탭 막대의 AI를 누르면 보던 화면 위로 대화창이 열려요. 로그인한 뒤에 쓸 수 있어요.</li>
       <li>「지난번 벤치프레스 몇 kg 들었지?」, 「최근 3주 잠은 어땠어?」처럼 물으면 식단, 근력, 체중, 체성분, 수면, 러닝, 카페인 기록을 찾아보고 답해요. 지금 적용 중인 하루 열량, 단백질, 근력 지키기 목표도 알고 답해요. 필요하면 기록 숫자로 그린 선, 막대, 표를 답 아래에 붙여요.</li>
       <li>입력 칸 옆 「+」에서 「카메라」를 누르면 대화를 보면서 바로 찍을 수 있어요. 헬스장 기구를 찍어 「이 기구 어떻게 써?」처럼 묻거나, 「사진」에서 골라 한 번에 5장까지 붙여요. 보낸 사진은 크게 보고 사진 앱에 저장할 수 있고, 사이드바의 「사진과 링크」에 모여요.</li>
       <li>「다음 주 3분할 짜 줘」라고 하면 계획 카드를, 「점심 기록해 줘」라고 하면 식단 기록 카드를 만들어요. 카드의 버튼을 눌러야 플랜과 식단에 들어가고, 취소하면 아무것도 바뀌지 않아요.</li>
@@ -1239,7 +1239,23 @@
   const button = form.querySelector('button[type="submit"]');
   const open = form.dataset.open === 'true';
   const failure = '잠시 뒤 다시 시도해 주세요';
-  const full = '오늘 신청이 많아요. 내일 다시 시도해 주세요';
+  // Refusals the server names. Same sentences as supabase/functions/beta-signup/index.ts (its test reads this page).
+  const refusals = {
+    full: '오늘 신청이 많아요. 내일 다시 시도해 주세요',
+    network_busy: '같은 네트워크에서 신청이 많아요. 잠시 뒤 다시 하거나 모바일 데이터로 신청해 주세요',
+    email_busy: '이 이메일로 오늘 여러 번 신청했어요. 내일 다시 시도해 주세요',
+    contact: '신청 결과를 확인하지 못했어요. founder@arecura.net으로 알려 주세요',
+    processing: '신청을 처리하고 있어요. 잠시 뒤 메일함을 확인해 주세요',
+  };
+  // The address in a sentence becomes a link people can tap.
+  const address = 'founder@arecura.net';
+  const show = text => {
+    const at = text.indexOf(address);
+    if (at < 0) { status.textContent = text; return; }
+    const link = document.createElement('a');
+    link.href = 'mailto:founder@arecura.net'; link.textContent = address;
+    status.replaceChildren(text.slice(0, at), link, text.slice(at + address.length));
+  };
   // The server refuses tickets younger than 3 seconds or older than 1 hour.
   const minimumWait = 3200, ticketLife = 50 * 60 * 1000;
   let ticket = '', ticketAt = 0, ticketLoad, busy = false, complete = false;
@@ -1275,14 +1291,15 @@
       const wait = minimumWait - (Date.now() - ticketAt);
       if (wait > 0) await new Promise(resolve => setTimeout(resolve, wait));
       const controller = new AbortController();
-      timer = setTimeout(() => controller.abort(), 15000);
+      // Longer than the server's slowest path (about ten calls of up to eight seconds each).
+      timer = setTimeout(() => controller.abort(), 90000);
       const payload = {email: email.value.trim(), ticket, extra: extra.value, consent: true, consentVersion: '2026-10-30'};
       if (nickname.value.trim()) payload.firstName = nickname.value.trim();
       const response = await fetch(form.dataset.endpoint, {method: 'POST', headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(payload), signal: controller.signal, credentials: 'omit', referrerPolicy: 'no-referrer'});
       const result = await response.json();
-      if (result.status === 'full') {
-        status.textContent = full;
+      if (Object.prototype.hasOwnProperty.call(refusals, result.status)) {
+        show(refusals[result.status]);
       } else if (response.ok && ['invited', 'already'].includes(result.status)) {
         status.textContent = result.status === 'already' ? '이미 신청했어요. 메일함에서 Apple 초대를 확인해 주세요' : '메일함에서 Apple 초대를 확인해 주세요';
         complete = true; email.readOnly = true; nickname.readOnly = true; consent.disabled = true;
