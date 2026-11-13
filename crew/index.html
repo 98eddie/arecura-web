@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>크루 초대 (Arecura)</title>
+<meta name="description" content="Arecura 크루 초대 링크 안내. 앱에서 열어 가입 요청을 보냅니다." />
+<!-- 초대 토큰이 주소에 있다. 검색에 싣지 않고, 다른 사이트로 넘어갈 때 주소를 넘기지 않는다. -->
+<meta name="robots" content="noindex" />
+<meta name="referrer" content="no-referrer" />
+<meta name="theme-color" content="#FFFFFF" />
+<meta name="color-scheme" content="only light" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=arecura-20261008" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<style>
+  /* 값은 index.html 과 같은 앱 토큰이다(publish-site.sh 가 .css 파일을 받지 않아 페이지마다 둔다). */
+  :root{
+    --bg:#FFFFFF; --card-bg:#FFFFFF; --card-border:rgba(0,0,0,.06); --hairline:.5px;
+    --card-shadow:0 1px 4px rgba(0,0,0,.04),0 4px 24px rgba(0,0,0,.06);
+    --ink:#000000; --muted:#707075; --blue:#3A639C; --blue-strong:#2F5488;
+    --r-card:24px; --r-button:16px; --r-badge:6px;
+    --s-xs:4px; --s-sm:8px; --s-md:12px; --s-lg:16px; --s-xl:20px;
+    --hit:44px; --pressed:.7; --lh:1.2; --lh-para:calc(1.2em + 3px);
+    --font:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{margin:0 auto;padding:16px 20px 64px;max-width:720px;font-family:var(--font);font-size:17px;line-height:var(--lh);
+    color:var(--ink);background:var(--bg);word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
+  a{color:var(--blue)}
+  :where(a):focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:var(--r-badge)}
+  p,li{line-height:var(--lh-para);text-wrap:pretty}
+  .back{display:inline-flex;align-items:center;min-height:var(--hit);font:500 15px/1.2 var(--font);color:var(--ink);text-decoration:none}
+  .back:active{opacity:var(--pressed)}
+  h1{margin:var(--s-lg) 0 var(--s-sm);font-size:28px;font-weight:700;line-height:var(--lh)}
+  .intro{margin:0 0 var(--s-xl);font-size:17px;color:var(--muted)}
+  .cards{display:grid;gap:var(--s-lg)}
+  .card{background:var(--card-bg);border:var(--hairline) solid var(--card-border);border-radius:var(--r-card);
+    box-shadow:var(--card-shadow);padding:var(--s-lg)}
+  .card h2{margin:0 0 10px;font-size:17px;font-weight:600;line-height:var(--lh)}
+  .card p{margin:0 0 10px;color:var(--muted)}
+  .card p:last-child{margin-bottom:0}
+  .note{font-size:13px;line-height:var(--lh);color:var(--muted)}
+  /* 카드 안 큰 실행 버튼(앱 primaryActionButton .insideCard 와 같은 높이 비례 둥근 사각) */
+  .button{display:flex;align-items:center;justify-content:center;min-height:50px;margin-top:var(--s-md);border-radius:var(--r-button);
+    background:var(--blue-strong);color:#FFFFFF;font:600 17px/1.2 var(--font);text-decoration:none}
+  .button:active{opacity:var(--pressed)}
+  .button.secondary{background:var(--bg);color:var(--ink);border:var(--hairline) solid rgba(0,0,0,.18)}
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+<nav aria-label="처음으로"><a class="back" href="/">← Arecura</a></nav>
+
+<main>
+<h1>크루 초대</h1>
+<p class="intro" id="intro">친구가 Arecura 크루에 초대했습니다.</p>
+
+<div class="cards" id="valid">
+<section class="card">
+  <h2>앱이 있다면</h2>
+  <p>앱에서 열면 닉네임과 프로필 사진을 정하고 가입 요청을 보냅니다. 크루 관리자가 승인하면 들어갑니다.</p>
+  <a class="button" id="open-app" href="arecura://crew?token=">앱에서 열기</a>
+</section>
+
+<section class="card">
+  <h2>앱이 없다면</h2>
+  <p>Arecura는 지금 베타 테스트 중입니다. 베타를 신청하면 TestFlight 초대 메일을 보냅니다.
+  앱을 설치한 뒤 이 링크를 다시 누르면 가입 요청을 보낼 수 있습니다.</p>
+  <a class="button secondary" href="/#join">베타 신청</a>
+</section>
+
+<section class="card">
+  <h2>크루에서 보이는 것</h2>
+  <p>같은 크루 구성원에게는 닉네임과 프로필 사진, 이번 주 약속 수와 지킨 수, 부위별 세트 수, 러닝 거리와 횟수가 보입니다.
+  체중, 식단, 수면, 러닝 경로는 보이지 않습니다. 나가기는 언제든 됩니다.</p>
+  <p class="note">가입 요청을 보낸 날부터 7일 안에 관리자가 승인하지 않으면 요청이 사라집니다.</p>
+</section>
+</div>
+
+<div class="cards" id="invalid" hidden>
+<section class="card">
+  <h2>링크가 올바르지 않습니다</h2>
+  <p>초대한 친구에게 새 링크를 받아 주세요.</p>
+  <a class="button secondary" href="/">처음 화면</a>
+</section>
+</div>
+</main>
+
+<script>
+  // 토큰은 64자 16진수다(앱 CrewRules.inviteTokenLength, 서버 CHECK 와 같은 꼴). 다른 꼴이면 앱 열기를 감춘다.
+  (function () {
+    var token = (new URLSearchParams(location.search).get('t') || '').trim().toLowerCase();
+    var valid = /^[0-9a-f]{64}$/.test(token);
+    document.getElementById('valid').hidden = !valid;
+    document.getElementById('invalid').hidden = valid;
+    document.getElementById('intro').hidden = !valid;
+    if (valid) { document.getElementById('open-app').href = 'arecura://crew?token=' + token; }
+  })();
+</script>
+</body>
+</html>

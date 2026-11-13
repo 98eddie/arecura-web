@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>페이지를 찾을 수 없습니다 (Arecura)</title>
+<meta name="robots" content="noindex" />
+<meta name="referrer" content="no-referrer" />
+<meta name="theme-color" content="#FFFFFF" />
+<meta name="color-scheme" content="only light" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=arecura-20261008" />
+<script>
+  // 크루 초대 링크(https://arecura.net/crew/<토큰>)는 앱이 있으면 앱이 연다(apple-app-site-association).
+  // 앱이 없으면 GitHub Pages 가 이 404 를 내보낸다. 경로 변수가 없어서 여기서 안내 페이지(/crew/?t=<토큰>)로 넘긴다.
+  (function () {
+    var match = location.pathname.match(/^\/crew\/([^\/]+)\/?$/);
+    if (match) { location.replace('/crew/?t=' + encodeURIComponent(match[1])); }
+  })();
+</script>
+<style>
+  /* 값은 index.html 과 같은 앱 토큰이다(publish-site.sh 가 .css 파일을 받지 않아 페이지마다 둔다). */
+  :root{
+    --bg:#FFFFFF; --card-bg:#FFFFFF; --card-border:rgba(0,0,0,.06); --hairline:.5px;
+    --card-shadow:0 1px 4px rgba(0,0,0,.04),0 4px 24px rgba(0,0,0,.06);
+    --ink:#000000; --muted:#707075; --blue:#3A639C;
+    --r-card:24px; --r-badge:6px; --s-sm:8px; --s-lg:16px; --s-xl:20px; --hit:44px; --pressed:.7; --lh:1.2; --lh-para:calc(1.2em + 3px);
+    --font:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{margin:0 auto;padding:16px 20px 64px;max-width:720px;font-family:var(--font);font-size:17px;line-height:var(--lh);
+    color:var(--ink);background:var(--bg);word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
+  a{color:var(--blue)}
+  .back{display:inline-flex;align-items:center;min-height:var(--hit);font:500 15px/1.2 var(--font);color:var(--ink);text-decoration:none}
+  .back:active{opacity:var(--pressed)}
+  h1{margin:var(--s-lg) 0 var(--s-sm);font-size:28px;font-weight:700;line-height:var(--lh)}
+  .card{background:var(--card-bg);border:var(--hairline) solid var(--card-border);border-radius:var(--r-card);
+    box-shadow:var(--card-shadow);padding:var(--s-lg)}
+  .card p{margin:0;color:var(--muted);line-height:var(--lh-para)}
+</style>
+</head>
+<body>
+<nav aria-label="처음으로"><a class="back" href="/">← Arecura</a></nav>
+<main>
+<h1>페이지를 찾을 수 없습니다.</h1>
+<section class="card">
+  <p>주소가 바뀌었거나 없는 페이지입니다. <a href="/">처음 화면</a>에서 다시 찾아 주세요.</p>
+</section>
+</main>
+</body>
+</html>

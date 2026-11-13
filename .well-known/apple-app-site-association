@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["W82N463QDY.Arecura.Arecura"],
+        "components": [
+          { "/": "/crew/*", "comment": "크루 초대 링크. 앱이 있으면 앱이 열고, 없으면 404.html 이 crew/ 안내 페이지로 넘긴다." }
+        ]
+      }
+    ]
+  }
+}
